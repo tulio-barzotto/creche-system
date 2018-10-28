@@ -63,22 +63,24 @@ app.controller('LoginController', function ($rootScope, $scope, $http, $state, T
   }
 
   $scope.login = function () {
-    console.log('login...');
-    $http.post('/api/login', {
-      username: $scope.username,
-      password: $scope.password
-    }).then(function (response) {
-      var authToken = response.headers()['x-auth-token'];
-      if (authToken) {
-        TokenStore.save(authToken);
-        //get current user
-        return $http.get('/api/user/current')
-      }
-    }).then(function (response) {
-      $rootScope.currentUser = response.data;
-      $state.go('home');
-    });
+      console.log('login...');
+      $http.post('/api/login', {
+          username: $scope.username,
+          password: $scope.password
+      }).then(function successCallback(response) {
+          var authToken = response.headers()['x-auth-token'];
+          if (authToken) {
+              TokenStore.save(authToken);
+              //get current user
+              return $http.get('/api/user/current').then(function successCallback(response) {
+                  $rootScope.currentUser = response.data;
+                  $state.go('home');
+              });
+          }
+      }, function errorCallback(response) {
+          //TODO: utilizar componente para notificação
+          alert("Usuário e/ou senha inválidos");
+      })
   }
-
 });
 
