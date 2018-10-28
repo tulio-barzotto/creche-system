@@ -1,11 +1,25 @@
-<h1>Login</h1>
+<div class="login">
+    <div class="login-screen">
+        <div class="app-title">
+            <h1>Login</h1>
+        </div>
+        <form class="login100-form validate-form" ng-submit="login()">
+            <div class="login-form">
+                <div class="control-group">
+                    <input type="text" class="login-field" value="" placeholder="username" id="login-name" ng-model="username">
+                    <label class="login-field-icon fui-user" for="login-name"></label>
+                </div>
 
-<form ng-submit="login()">
-    <label for="username">Username:</label>
-    <input type="text" id="username" ng-model="username"/>
-    <br><br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" ng-model="password"/>
-    <br><br>
-    <input type="submit" value="Login"/>
-</form>
+                <div class="control-group">
+                    <input type="password" class="login-field" value="" placeholder="password" id="login-pass" ng-model="password">
+                    <label class="login-field-icon fui-lock" for="login-pass"></label>
+                </div>
+
+                <!--<a class="btn btn-primary btn-large btn-block" href="#">login</a>-->
+                <button class="btn btn-primary btn-large btn-block">
+                    Entrar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
