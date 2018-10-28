@@ -1,0 +1,21 @@
+{
+  "name": "creche-system",
+  "homepage": "https://github.com/bboylilshaw/spring-security-angularjs-demo",
+  "authors": [
+    "Tulio Barzotto <tulio.barzotto@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.3",
+    "angular-ui-router": "ui-router#^0.4.2"
+  }
+}
