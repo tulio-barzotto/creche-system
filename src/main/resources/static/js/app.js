@@ -48,19 +48,22 @@ app.controller('HomeController', function ($rootScope, $scope, $state, $http, To
     }
   }
 
-  $scope.logout = function () {
+  $rootScope.logout = function () {
     TokenStore.clear();
     delete $rootScope.currentUser;
-    $state.go('login')
+    $state.go('login');
   };
 
 });
 
 app.controller('LoginController', function ($rootScope, $scope, $http, $state, TokenStore) {
-  if ($rootScope.currentUser) {
-    console.log('already logged in');
-    $state.go('home');
-  }
+    $rootScope.showNavbar = function () {
+        return typeof $rootScope.currentUser !== "undefined";
+    };
+    if ($rootScope.currentUser) {
+        console.log('already logged in');
+        $state.go('home');
+    }
 
   $scope.login = function () {
       console.log('login...');
