@@ -76,3 +76,8 @@ input:focus {
     display: block;
     margin-top: 12px;
 }
+
+.drop-info-user {
+    min-width: 260px;
+    padding: 10px 10px 0 10px;
+}
