@@ -1,6 +1,18 @@
 var app = angular.module('app', [
-  'ui.router'
+    'ui.router',
+    'ngAlerts'
 ]);
+
+app.config(['ngAlertsProvider', function (ngAlertsProvider) {
+    // Global empty list text.
+    ngAlertsProvider.options.emptyListText = 'Vazio';
+
+    // The queue timeout for new alerts.
+    ngAlertsProvider.options.queueTimeout = 3000;
+
+    // The queue location (top||bottom, left||right).
+    ngAlertsProvider.options.queueLocation = 'top right';
+}]);
 
 app.factory('TokenStore', function ($window) {
   var storageKey = 'auth_token';
@@ -56,9 +68,14 @@ app.controller('HomeController', function ($rootScope, $scope, $state, $http, To
 
 });
 
-app.controller('LoginController', function ($rootScope, $scope, $http, $state, TokenStore) {
+app.controller('LoginController', function ($rootScope, $scope, $http, $state, TokenStore, ngAlertsMngr) {
     $rootScope.showNavbar = function () {
         return typeof $rootScope.currentUser !== "undefined";
+    };
+    $rootScope.addAlert = function (message) {
+        var obj = { msg: message,
+                    type: 'danger'};
+        ngAlertsMngr.add(obj);
     };
     if ($rootScope.currentUser) {
         console.log('already logged in');
@@ -81,8 +98,7 @@ app.controller('LoginController', function ($rootScope, $scope, $http, $state, T
               });
           }
       }, function errorCallback(response) {
-          //TODO: utilizar componente para notificação
-          alert("Usuário e/ou senha inválidos");
+          $scope.addAlert("Usuario e/ou senha invalidos");
       })
   }
 });

@@ -7,8 +7,13 @@
 }
 body {
     font-family: Arial;
-    background-color: #3498DB;
     padding: 50px;
+}
+.body-login {
+    background-color: #3498DB;
+}
+.body-content {
+    background-color: #ECF0F1;
 }
 .login {
     margin: 20px auto;
@@ -80,4 +85,17 @@ input:focus {
 .drop-info-user {
     min-width: 260px;
     padding: 10px 10px 0 10px;
+}
+.navbar.navbar-default.navbar-fixed-top {
+    background-color: #3498DB;
+    border-color: #2c7eb5;
+}
+.nav.navbar-nav li a {
+    color: #FFFFFF;
+}
+.navbar-default.navbar-brand {
+    color: #FFFFFF;
+}
+.navbar-default.navbar-toggle.icon-bar {
+    color: #FFFFFF;
 }
