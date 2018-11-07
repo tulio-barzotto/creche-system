@@ -103,3 +103,20 @@ app.controller('LoginController', function ($rootScope, $scope, $http, $state, T
   }
 });
 
+app.controller('TurmaController', function ($rootScope, $scope, $http, $state, ngAlertsMngr) {
+    $scope.turmas = [];
+    $rootScope.addAlert = function (message) {
+        var obj = { msg: message,
+            type: 'danger'};
+        ngAlertsMngr.add(obj);
+    };
+    $scope.getAll = function () {
+        $http.get('/api/turmas').then(function successCallback(response) {
+            $scope.turmas = response.data;
+        }, function errorCallback(response) {
+            $scope.turmas = [];
+            $scope.addAlert("Erro ao pesquisar as turmas");
+        })
+    };
+    $scope.getAll();
+});

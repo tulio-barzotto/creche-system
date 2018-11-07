@@ -14,6 +14,11 @@ angular.module('app').config(function($stateProvider, $urlRouterProvider, $httpP
       url: '/login',
       templateUrl: 'template/login.html',
       controller: 'LoginController'
-    });
+    })
+    .state('turmas', {
+      url: '/turmas',
+      templateUrl: 'template/turmas.html',
+      controller: 'TurmaController'
+  });
 
 });
