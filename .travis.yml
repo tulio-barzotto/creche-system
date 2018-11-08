@@ -2,8 +2,11 @@ sudo: required
 language: java
 jdk: oraclejdk8
 
+before_install:
+  - chmod +x mvnw
+
 script:
-- ./mvnw clean install -B
+  - ./mvnw clean install -B
 
 deploy:
   provider: heroku
