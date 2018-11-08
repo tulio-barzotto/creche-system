@@ -54,7 +54,7 @@ input:focus {
     box-shadow: none;
 }
 
-.btn {
+.btn-login {
     border: 2px solid transparent;
     background: #3498DB;
     color: #ffffff;
@@ -71,7 +71,7 @@ input:focus {
     margin: 0 auto;
 }
 
-.btn:hover {
+.btn-login:hover {
     background-color: #2980B9;
 }
 
@@ -98,4 +98,8 @@ input:focus {
 }
 .navbar-default.navbar-toggle.icon-bar {
     color: #FFFFFF;
+}
+.col-centered {
+    float: none;
+    margin: 0 auto;
 }

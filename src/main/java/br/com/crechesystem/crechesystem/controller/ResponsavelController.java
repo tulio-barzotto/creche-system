@@ -1,7 +1,7 @@
 package br.com.crechesystem.crechesystem.controller;
 
-import br.com.crechesystem.crechesystem.domain.Turma;
-import br.com.crechesystem.crechesystem.service.TurmaService;
+import br.com.crechesystem.crechesystem.domain.Responsavel;
+import br.com.crechesystem.crechesystem.service.ResponsavelService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,31 +18,31 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/turmas")
-public class TurmaController {
+@RequestMapping("/api/responsaveis")
+public class ResponsavelController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TurmaController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResponsavelController.class);
 
-    private final TurmaService turmaService;
+    private final ResponsavelService responsavelService;
 
     @Autowired
-    public TurmaController(TurmaService turmaService) {
-        this.turmaService = turmaService;
+    public ResponsavelController(ResponsavelService responsavelService) {
+        this.responsavelService = responsavelService;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity getTurmaById(@PathVariable Long id) {
+    public ResponseEntity getResponsavelById(@PathVariable Long id) {
         LOGGER.info("Requisição Turma por ID: {}", id);
-        Optional<Turma> turma = turmaService.findOne(id);
-        return turma.map(c -> new ResponseEntity<>(c, HttpStatus.OK))
+        Optional<Responsavel> responsavel = responsavelService.findOne(id);
+        return responsavel.map(c -> new ResponseEntity<>(c, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping
-    public ResponseEntity<List<Turma>> getAll() {
-        List<Turma> turmas = turmaService.findAll();
-        if(CollectionUtils.isNotEmpty(turmas)) {
-            return new ResponseEntity<>(turmas, HttpStatus.OK);
+    public ResponseEntity<List<Responsavel>> getAll() {
+        List<Responsavel> responsaveis = responsavelService.findAll();
+        if(CollectionUtils.isNotEmpty(responsaveis)) {
+            return new ResponseEntity<>(responsaveis, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
         }

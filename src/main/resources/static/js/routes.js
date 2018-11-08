@@ -14,6 +14,21 @@ angular.module('app').config(function($stateProvider, $urlRouterProvider, $httpP
       url: '/login',
       templateUrl: 'template/login.html',
       controller: 'LoginController'
+    })
+    .state('turmas', {
+      url: '/turmas',
+      templateUrl: 'template/turma/turmas.html',
+      controller: 'TurmaController'
+    })
+    .state('responsaveis', {
+      url: '/responsaveis',
+      templateUrl: 'template/responsavel/responsaveis.html',
+      controller: 'ResponsavelController'
+    })
+    .state('responsaveis-new', {
+      url: '/form-responsavel',
+      templateUrl: 'template/responsavel/form-responsavel.html',
+      controller: 'FormResponsavelController'
     });
 
 });

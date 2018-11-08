@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -26,5 +27,11 @@ public class TurmaServiceImpl implements TurmaService {
     public Optional<Turma> findOne(Long id) {
         LOGGER.info("Pesquisando Turma pelo ID: {}", id);
         return this.turmaRepository.findById(id);
+    }
+
+    @Override
+    public List<Turma> findAll() {
+        LOGGER.info("Pesquisando todas as Turmas");
+        return this.turmaRepository.findAll();
     }
 }
