@@ -17,8 +17,18 @@ angular.module('app').config(function($stateProvider, $urlRouterProvider, $httpP
     })
     .state('turmas', {
       url: '/turmas',
-      templateUrl: 'template/turmas.html',
+      templateUrl: 'template/turma/turmas.html',
       controller: 'TurmaController'
-  });
+    })
+    .state('responsaveis', {
+      url: '/responsaveis',
+      templateUrl: 'template/responsavel/responsaveis.html',
+      controller: 'ResponsavelController'
+    })
+    .state('responsaveis-new', {
+      url: '/form-responsavel',
+      templateUrl: 'template/responsavel/form-responsavel.html',
+      controller: 'FormResponsavelController'
+    });
 
 });

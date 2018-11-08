@@ -120,3 +120,48 @@ app.controller('TurmaController', function ($rootScope, $scope, $http, $state, n
     };
     $scope.getAll();
 });
+
+app.controller('ResponsavelController', function ($rootScope, $scope, $http, $state, ngAlertsMngr) {
+    $scope.responsaveis = [];
+    $rootScope.addAlert = function (message) {
+        var obj = { msg: message,
+            type: 'danger'};
+        ngAlertsMngr.add(obj);
+    };
+    $scope.getAll = function () {
+        $http.get('/api/responsaveis').then(function successCallback(response) {
+            $scope.responsaveis = response.data;
+        }, function errorCallback(response) {
+            $scope.responsaveis = [];
+            $scope.addAlert("Erro ao pesquisar os responsaveis");
+        })
+    };
+    $scope.edit = function (responsavel) {
+        console.log('Editar= ' + responsavel);
+        //TODO
+    };
+    $scope.delete = function (responsavel) {
+        console.log('Remover= ' + responsavel);
+        //TODO
+    };
+    $scope.new = function () {
+        $state.go('responsaveis-new');
+    };
+    $scope.getAll();
+});
+
+app.controller('FormResponsavelController', function ($rootScope, $scope, $http, $state, ngAlertsMngr) {
+    $scope.responsavel = {};
+    $rootScope.addAlert = function (message) {
+        var obj = { msg: message,
+            type: 'danger'};
+        ngAlertsMngr.add(obj);
+    };
+    $scope.submitForm = function () {
+        console.log('submit');
+        //TODO
+    };
+    $scope.clearForm = function () {
+        $scope.responsavel = {};
+    };
+});

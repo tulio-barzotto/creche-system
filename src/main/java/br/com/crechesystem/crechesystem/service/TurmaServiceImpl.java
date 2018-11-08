@@ -31,6 +31,7 @@ public class TurmaServiceImpl implements TurmaService {
 
     @Override
     public List<Turma> findAll() {
+        LOGGER.info("Pesquisando todas as Turmas");
         return this.turmaRepository.findAll();
     }
 }
