@@ -13,7 +13,7 @@ before_script:
   - bower install -f
 
 script:
-  - ./mvnw clean install -B
+  - ./mvnw install -B
 
 deploy:
   provider: heroku
