@@ -6,7 +6,7 @@ before_install:
   - chmod +x mvnw
   - npm -g install npm@^2
   - npm -g install bower
-  - chmod +x /home/travis/.nvm/versions/node/v8.9.1/lib/node_modules/bower
+  - chmod +x /home/travis/.nvm/versions/node/v8.9.1/lib/node_modules/bower/bower
   - npm -g install yarn
   - yarn cache clean
 

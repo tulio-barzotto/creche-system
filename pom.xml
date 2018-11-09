@@ -145,7 +145,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<executable>/home/travis/.nvm/versions/node/v8.9.1/lib/node_modules/bower</executable>
+					<executable>/home/travis/.nvm/versions/node/v8.9.1/lib/node_modules/bower/bower</executable>
 					<arguments>
 						<argument>install</argument>
 					</arguments>
