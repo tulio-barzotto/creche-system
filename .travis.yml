@@ -1,3 +1,17 @@
+sudo: required
+language: java
+jdk: oraclejdk8
+
+before_install:
+  - chmod +x mvnw
+  - "npm install -g npm@^2"
+
+install:
+    - npm install -g bower
+    - npm install
+    - bower install
+    - ./mvnw clean install -B
+
 deploy:
   provider: heroku
   api_key:
