@@ -4,14 +4,16 @@ jdk: oraclejdk8
 
 before_install:
   - chmod +x mvnw
+  
+before_script:
   - npm -g install npm@^2
   - npm -g install bower
   - npm -g install yarn
-
-install:
-  - ./mvnw clean install
   - yarn cache clean
-  - bower install
+  - bower install -f
+
+script:
+  - ./mvnw clean install -B
 
 deploy:
   provider: heroku
