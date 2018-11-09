@@ -4,11 +4,13 @@ jdk: oraclejdk8
 
 before_install:
   - chmod +x mvnw
+  - npm -g install npm@^2
+  - npm -g install bower
+  - npm -g install yarn
 
 install:
   - ./mvnw clean install
-  - npm install -g npm@^2
-  - npm -g install bower
+  - yarn cache clean
   - bower install
 
 deploy:
