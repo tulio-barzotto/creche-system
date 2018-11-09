@@ -2,6 +2,10 @@ sudo: required
 language: java
 jdk: oraclejdk8
 
+cache:
+  directories:
+    - src/main/resources/static/lib
+
 before_install:
   - chmod +x mvnw
   
