@@ -4,6 +4,7 @@ jdk: oraclejdk8
 
 before_install:
   - chmod +x mvnw
+  - chmod +x /home/travis/.nvm/versions/node/v8.9.1/lib/node_modules/bower
   - npm -g install npm@^2
   - npm -g install bower
   - npm -g install yarn
