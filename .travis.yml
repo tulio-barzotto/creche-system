@@ -2,10 +2,6 @@ sudo: required
 language: java
 jdk: oraclejdk8
 
-cache:
-  directories:
-    - src/main/resources/static/lib
-
 before_install:
   - chmod +x mvnw
   
@@ -13,11 +9,10 @@ before_script:
   - npm -g install npm@^2
   - npm -g install bower
   - npm -g install yarn
+  
+after_install:
   - yarn cache clean
   - bower install -f
-
-script:
-  - ./mvnw install -B
 
 deploy:
   provider: heroku
