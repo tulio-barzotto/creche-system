@@ -18,5 +18,8 @@
     "angular": "^1.6.3",
     "angular-ui-router": "ui-router#^0.4.2",
     "ng-alerts": "^1.0.6"
+  },
+  "resolutions": {
+	"angular": "^1.6.3"
   }
 }
