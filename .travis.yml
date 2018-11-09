@@ -8,10 +8,7 @@ cache:
     - node_modules
 
 before_install:
-  - pwd
   - chmod +x mvnw
-  
-before_script:
   - npm -g install npm@^2
   - npm -g install bower
   - npm -g install yarn
