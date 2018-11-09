@@ -8,7 +8,7 @@ cache:
     - node_modules
 
 before_install:
-  - cd creche-system
+  - pwd
   - chmod +x mvnw
   
 before_script:
