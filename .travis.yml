@@ -4,17 +4,11 @@ jdk: oraclejdk8
 
 before_install:
   - chmod +x mvnw
-  - "npm install -g npm@^2"
-
-install:
-    - npm install -g bower
-    - npm install
-    - bower install
-    - ./mvnw clean install -B
 
 deploy:
   provider: heroku
+  skip_cleanup: true
   api_key:
-    secure: lAyiSnqIadlucNjqUNDQaLXZvWCXlQyDbiet0DZkNqiCHredDrR7HzuA+HzSYPhYhmpnjHq22cIHVoaqKRMG/LuAtUI//CfPL06TM/jfHIuomnCtLZ8GUN56PtKuCbVQI/06FRCdcsaVqF9xtrcOB4whENrAcz6TyCEp1U6d/ddRAo+t8/mwViqDSX+eH/qX+Jd0oH1vdsLuGNOk1ucoYgUMC/W4TnwcyhwS5E1s0piF0/xb6Rh/a+oh4/JDslNTVtz5cQU0C5Hzjnft1lsFerM9KxVPJryl8sqbGLkmDtGjMmx/ARd5yZIpC+rpoPgGOhaWNYzfEN1r94yrlHILvRt8cNU/TwUbZc/l7mLHKMxskFuyiRythbHke+Yz9PgkZkBIM+tuSYLXv60fVYWkGTLZiiPLKmxxVMCwMDnMxSZO9U/CSAg+di2PX9gmk5I1yVaPO+k0aXcUGohgTM1Bnka3/T+gfqY2S5cjbU7tP7l3oitCP6VMHssz5zKvAOQgGW/iA38WkrBjnuL2XVlZe9VKW3XptcwVrT9S59DgDkwVMRfbTPQCSUeqey/OamDCmWcA1vRj6uPJ4P2vFlDvUGpbbCQr3DHpUbzqFmLuwhCP9aCPiJYSjqlERu84JOIgKwNDfR9U6w52x37lquyPrslrKl+DEoisHRTtl8Ph/c0=
+    secure: 53b93989-0012-4d4f-a673-757958b0a1a8
   app: creche-system
-  on: master
+  on: development

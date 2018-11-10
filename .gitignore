@@ -23,6 +23,3 @@
 /dist/
 /nbdist/
 /.nb-gradle/
-
-### libs frontend
-/src/main/resources/static/lib/
