@@ -133,25 +133,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<executable>/home/travis/.nvm/versions/node/v8.9.1/lib/node_modules/bower/bower</executable>
-					<arguments>
-						<argument>install</argument>
-					</arguments>
-					<workingDirectory>${basedir}</workingDirectory>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 
