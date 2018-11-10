@@ -9,22 +9,19 @@ body {
     font-family: Arial;
     padding: 50px;
 }
-.body-login {
-    background-color: #3498DB;
-}
-.body-content {
-    background-color: #ECF0F1;
-}
 .login {
     margin: 20px auto;
     width: 300px;
 }
 .login-screen {
-    background-color: #FFF;
+    background-color: #2ea14e;
     padding: 20px;
-    border-radius: 5px
+    border-radius: 5px;
+    box-shadow: 6px 6px 10px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
 }
-
+.login-screen h1{
+    color: white;
+}
 .app-title {
     text-align: center;
     color: #777;
@@ -39,7 +36,7 @@ body {
 
 input {
     text-align: center;
-    background-color: #ECF0F1;
+    background-color: #FFFFFF;
     border: 2px solid transparent;
     border-radius: 3px;
     font-size: 16px;
@@ -50,13 +47,13 @@ input {
 }
 
 input:focus {
-    border: 2px solid #3498DB;
+    border: 2px solid #5b290f;
     box-shadow: none;
 }
 
 .btn-login {
     border: 2px solid transparent;
-    background: #3498DB;
+    background: #f06e25;
     color: #ffffff;
     font-size: 16px;
     line-height: 25px;
@@ -72,7 +69,7 @@ input:focus {
 }
 
 .btn-login:hover {
-    background-color: #2980B9;
+    background-color: #a54b1b;
 }
 
 .login-link {
@@ -87,8 +84,8 @@ input:focus {
     padding: 10px 10px 0 10px;
 }
 .navbar.navbar-default.navbar-fixed-top {
-    background-color: #3498DB;
-    border-color: #2c7eb5;
+    background-color: #2ea14e;
+    border-color: #237b3c;
 }
 .nav.navbar-nav li a {
     color: #FFFFFF;
@@ -99,7 +96,24 @@ input:focus {
 .navbar-default.navbar-toggle.icon-bar {
     color: #FFFFFF;
 }
-.col-centered {
+
+.body-background {
+    background: url(/images/background-kids.svg) no-repeat center bottom fixed;
+    background-size: cover;
+}
+
+.card-block {
     float: none;
-    margin: 0 auto;
+    position: relative;
+    margin: 15px auto;
+    padding: 1em;
+    border: none;
+    border-top: 1px solid rgba(34, 36, 38, .1);
+    border-radius: 5px;
+    background-color: rgba(54, 191, 92, 0.7);
+    box-shadow: 6px 6px 10px 0 #d4d4d5, 0 0 0 1px #d4d4d5;
+}
+
+.card-block h3 {
+    margin-top: 15px;
 }

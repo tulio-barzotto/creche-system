@@ -14,6 +14,18 @@ app.config(['ngAlertsProvider', function (ngAlertsProvider) {
     ngAlertsProvider.options.queueLocation = 'top right';
 }]);
 
+app.factory('AlertMessage', function (ngAlertsMngr) {
+   return {
+       show: function (type, message) {
+           var obj = {
+               msg: message,
+               type: type
+           };
+           ngAlertsMngr.add(obj);
+       }
+   };
+});
+
 app.factory('TokenStore', function ($window) {
   var storageKey = 'auth_token';
   return {
@@ -51,7 +63,6 @@ app.controller('HomeController', function ($rootScope, $scope, $state, $http, To
   if ($rootScope.currentUser === undefined) {
     if (TokenStore.get()) {
       $http.get("/api/user/current").then(function (response) {
-        console.log('get current user...');
         $rootScope.currentUser = response.data;
       });
     } else {
@@ -68,22 +79,16 @@ app.controller('HomeController', function ($rootScope, $scope, $state, $http, To
 
 });
 
-app.controller('LoginController', function ($rootScope, $scope, $http, $state, TokenStore, ngAlertsMngr) {
+app.controller('LoginController', function ($rootScope, $scope, $http, $state, TokenStore, AlertMessage) {
     $rootScope.showNavbar = function () {
         return typeof $rootScope.currentUser !== "undefined";
     };
-    $rootScope.addAlert = function (message) {
-        var obj = { msg: message,
-                    type: 'danger'};
-        ngAlertsMngr.add(obj);
-    };
     if ($rootScope.currentUser) {
-        console.log('already logged in');
+        AlertMessage.show('danger', 'Usuário já está logado');
         $state.go('home');
     }
 
   $scope.login = function () {
-      console.log('login...');
       $http.post('/api/login', {
           username: $scope.username,
           password: $scope.password
@@ -98,42 +103,32 @@ app.controller('LoginController', function ($rootScope, $scope, $http, $state, T
               });
           }
       }, function errorCallback(response) {
-          $scope.addAlert("Usuario e/ou senha invalidos");
+          AlertMessage.show('danger', 'Usuario e/ou senha invalidos');
       })
   }
 });
 
-app.controller('TurmaController', function ($rootScope, $scope, $http, $state, ngAlertsMngr) {
+app.controller('TurmaController', function ($rootScope, $scope, $http, $state, AlertMessage) {
     $scope.turmas = [];
-    $rootScope.addAlert = function (message) {
-        var obj = { msg: message,
-            type: 'danger'};
-        ngAlertsMngr.add(obj);
-    };
     $scope.getAll = function () {
         $http.get('/api/turmas').then(function successCallback(response) {
             $scope.turmas = response.data;
         }, function errorCallback(response) {
             $scope.turmas = [];
-            $scope.addAlert("Erro ao pesquisar as turmas");
+            AlertMessage.show('danger', 'Erro ao pesquisar as turmas');
         })
     };
     $scope.getAll();
 });
 
-app.controller('ResponsavelController', function ($rootScope, $scope, $http, $state, ngAlertsMngr) {
+app.controller('ResponsavelController', function ($rootScope, $scope, $http, $state, AlertMessage) {
     $scope.responsaveis = [];
-    $rootScope.addAlert = function (message) {
-        var obj = { msg: message,
-            type: 'danger'};
-        ngAlertsMngr.add(obj);
-    };
     $scope.getAll = function () {
         $http.get('/api/responsaveis').then(function successCallback(response) {
             $scope.responsaveis = response.data;
         }, function errorCallback(response) {
             $scope.responsaveis = [];
-            $scope.addAlert("Erro ao pesquisar os responsaveis");
+            AlertMessage.show('danger', "Erro ao pesquisar os responsaveis");
         })
     };
     $scope.edit = function (responsavel) {
@@ -150,13 +145,8 @@ app.controller('ResponsavelController', function ($rootScope, $scope, $http, $st
     $scope.getAll();
 });
 
-app.controller('FormResponsavelController', function ($rootScope, $scope, $http, $state, ngAlertsMngr) {
+app.controller('FormResponsavelController', function ($rootScope, $scope, $http, $state, AlertMessage) {
     $scope.responsavel = {};
-    $rootScope.addAlert = function (message) {
-        var obj = { msg: message,
-            type: 'danger'};
-        ngAlertsMngr.add(obj);
-    };
     $scope.submitForm = function () {
         console.log('submit');
         //TODO
