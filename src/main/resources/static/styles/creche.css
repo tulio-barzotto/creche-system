@@ -7,7 +7,6 @@
 }
 body {
     font-family: Arial;
-    padding: 50px;
 }
 .login {
     margin: 20px auto;
@@ -116,4 +115,8 @@ input:focus {
 
 .card-block h3 {
     margin-top: 15px;
+}
+
+.content {
+    margin: 50px;
 }

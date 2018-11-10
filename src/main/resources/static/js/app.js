@@ -1,6 +1,7 @@
 var app = angular.module('app', [
     'ui.router',
-    'ngAlerts'
+    'ngAlerts',
+    'ngMaterial'
 ]);
 
 app.config(['ngAlertsProvider', function (ngAlertsProvider) {
@@ -80,6 +81,7 @@ app.controller('HomeController', function ($rootScope, $scope, $state, $http, To
 });
 
 app.controller('LoginController', function ($rootScope, $scope, $http, $state, TokenStore, AlertMessage) {
+    $rootScope.isLoading = true;
     $rootScope.showNavbar = function () {
         return typeof $rootScope.currentUser !== "undefined";
     };
@@ -89,6 +91,7 @@ app.controller('LoginController', function ($rootScope, $scope, $http, $state, T
     }
 
   $scope.login = function () {
+      $rootScope.isLoading = true;
       $http.post('/api/login', {
           username: $scope.username,
           password: $scope.password
@@ -99,21 +102,27 @@ app.controller('LoginController', function ($rootScope, $scope, $http, $state, T
               //get current user
               return $http.get('/api/user/current').then(function successCallback(response) {
                   $rootScope.currentUser = response.data;
+                  $rootScope.isLoading = false;
                   $state.go('home');
               });
           }
       }, function errorCallback(response) {
+          $rootScope.isLoading = false;
           AlertMessage.show('danger', 'Usuario e/ou senha invalidos');
       })
   }
 });
 
 app.controller('TurmaController', function ($rootScope, $scope, $http, $state, AlertMessage) {
+    $rootScope.isLoading = false;
     $scope.turmas = [];
     $scope.getAll = function () {
+        $rootScope.isLoading = true;
         $http.get('/api/turmas').then(function successCallback(response) {
             $scope.turmas = response.data;
+            $rootScope.isLoading = false;
         }, function errorCallback(response) {
+            $rootScope.isLoading = false;
             $scope.turmas = [];
             AlertMessage.show('danger', 'Erro ao pesquisar as turmas');
         })
@@ -122,11 +131,15 @@ app.controller('TurmaController', function ($rootScope, $scope, $http, $state, A
 });
 
 app.controller('ResponsavelController', function ($rootScope, $scope, $http, $state, AlertMessage) {
+    $rootScope.isLoading = false;
     $scope.responsaveis = [];
     $scope.getAll = function () {
+        $rootScope.isLoading = true;
         $http.get('/api/responsaveis').then(function successCallback(response) {
             $scope.responsaveis = response.data;
+            $rootScope.isLoading = false;
         }, function errorCallback(response) {
+            $rootScope.isLoading = false;
             $scope.responsaveis = [];
             AlertMessage.show('danger', "Erro ao pesquisar os responsaveis");
         })
