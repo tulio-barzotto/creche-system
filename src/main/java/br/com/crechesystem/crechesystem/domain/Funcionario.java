@@ -1,7 +1,6 @@
 package br.com.crechesystem.crechesystem.domain;
 
 import br.com.crechesystem.crechesystem.security.enums.Role;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;

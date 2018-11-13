@@ -1,9 +1,19 @@
 package br.com.crechesystem.crechesystem.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "turma")
 public class Turma {
@@ -25,6 +35,12 @@ public class Turma {
 
     @Column(name = "maximo_meses")
     private int maximumMonths;
+
+    @OneToMany(mappedBy = "turma")
+    private Set<Aluno> alunos;
+
+    @Transient
+    private Integer alunosTotal;
 
     public Long getId() {
         return id;
@@ -66,6 +82,19 @@ public class Turma {
         this.maximumMonths = maximumMonths;
     }
 
+    public Set<Aluno> getAlunos() {
+        return alunos;
+    }
+
+    public void setAlunos(Set<Aluno> alunos) {
+        this.alunos = alunos;
+    }
+
+    @JsonProperty
+    public Integer getAlunosTotal() {
+        return alunos != null ? alunos.size() : 0;
+    }
+
     @Override
     public String toString() {
         return "Turma{" +
@@ -76,4 +105,5 @@ public class Turma {
                 ", maximumMonths=" + maximumMonths +
                 '}';
     }
+
 }
