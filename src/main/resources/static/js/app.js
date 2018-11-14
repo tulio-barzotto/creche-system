@@ -168,3 +168,31 @@ app.controller('FormResponsavelController', function ($rootScope, $scope, $http,
         $scope.responsavel = {};
     };
 });
+
+app.controller('AlunoController', function ($rootScope, $scope, $http, $state, AlertMessage) {
+    $rootScope.isLoading = false;
+    $scope.alunos = [];
+    $scope.getAll = function () {
+        $rootScope.isLoading = true;
+        $http.get('/api/alunos').then(function successCallback(response) {
+            $scope.alunos = response.data;
+            $rootScope.isLoading = false;
+        }, function errorCallback(response) {
+            $rootScope.isLoading = false;
+            $scope.alunos = [];
+            AlertMessage.show('danger', "Erro ao pesquisar os alunos");
+        })
+    };
+    $scope.edit = function (aluno) {
+        console.log('Editar= ' + aluno);
+        //TODO
+    };
+    $scope.delete = function (aluno) {
+        console.log('Remover= ' + aluno);
+        //TODO
+    };
+    $scope.new = function () {
+        $state.go('alunos-new');
+    };
+    $scope.getAll();
+});

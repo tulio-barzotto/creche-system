@@ -6,19 +6,17 @@
                 <thead>
                 <tr>
                     <th>Nome</th>
-                    <th>Total alunos</th>
-                    <th>Lotação máxima</th>
                     <th>Idade mínima(meses)</th>
                     <th>Idade máxima(meses)</th>
+                    <th>Total alunos</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="turma in turmas | orderBy : 'id'">
                     <td>{{ turma.name }}</td>
-                    <td>{{ turma.alunosTotal }}</td>
-                    <td>{{ turma.maximumCapacity }}</td>
                     <td>{{ turma.minimumMonths }}</td>
                     <td>{{ turma.maximumMonths }}</td>
+                    <td>{{ turma.alunosTotal + ' de ' + turma.maximumCapacity }}</td>
                 </tr>
                 </tbody>
             </table>
