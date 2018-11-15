@@ -1,6 +1,8 @@
 package br.com.crechesystem.crechesystem.service;
 
 import br.com.crechesystem.crechesystem.domain.Aluno;
+import br.com.crechesystem.crechesystem.domain.ResponsavelAluno;
+import br.com.crechesystem.crechesystem.dto.AlunoDTO;
 import br.com.crechesystem.crechesystem.repository.AlunoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +19,12 @@ public class AlunoServiceImpl implements AlunoService {
 
     private final AlunoRepository alunoRepository;
 
+    private final ResponsavelAlunoService responsavelAlunoService;
+
     @Autowired
-    public AlunoServiceImpl(AlunoRepository alunoRepository) {
+    public AlunoServiceImpl(AlunoRepository alunoRepository, ResponsavelAlunoService responsavelAlunoService) {
         this.alunoRepository = alunoRepository;
+        this.responsavelAlunoService = responsavelAlunoService;
     }
 
     @Override
@@ -31,5 +36,21 @@ public class AlunoServiceImpl implements AlunoService {
     @Override
     public List<Aluno> findAll() {
         return this.alunoRepository.findAll();
+    }
+
+    @Override
+    public Aluno save(AlunoDTO alunoDTO) throws Exception {
+        LOGGER.info("Salvando usuário: {}", alunoDTO);
+        Optional<ResponsavelAluno> optResponsavelAluno = responsavelAlunoService.findOne(alunoDTO.getIdResponsavelAluno());
+        if(!optResponsavelAluno.isPresent()) {
+            throw new Exception("Responsável inválido");
+        } else {
+            //TODO: verificar qual turma se encaixa
+            Aluno aluno = new Aluno();
+            aluno.setName(alunoDTO.getName());
+            aluno.setBirthdate(alunoDTO.getBirthdate());
+            aluno.setResponsavelAluno(optResponsavelAluno.get());
+            return alunoRepository.save(aluno);
+        }
     }
 }

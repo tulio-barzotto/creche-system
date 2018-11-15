@@ -19,16 +19,16 @@
         </div>
         <div class="form-group">
             <label for="selectResponsavel" class="control-label label-form">Responsável</label>
-            <select class="form-control" name="selectResponsavel" id="selectResponsavel" ng-model="model.responsavel">
-                <option ng-repeat="option in vm.responsaveis" value="{{option.id}}">{{option.name}}</option>
+            <select class="form-control" name="selectResponsavel" id="selectResponsavel" ng-model="model.idResponsavelAluno">
+                <option ng-repeat="option in vm.responsaveis" value="{{option.id}}">{{formatResponsaveis(option.responsavelMae, option.responsavelPai)}}</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="selectTurma" class="control-label label-form">Turma</label>
-            <select class="form-control" name="selectTurma" id="selectTurma" ng-model="model.turma">
-                <option ng-repeat="option in vm.turmas" value="{{option.id}}">{{option.name}}</option>
-            </select>
-        </div>
+        <!--<div class="form-group">-->
+            <!--<label for="selectTurma" class="control-label label-form">Turma</label>-->
+            <!--<select class="form-control" name="selectTurma" id="selectTurma" ng-model="model.turma">-->
+                <!--<option ng-repeat="option in vm.turmas" value="{{option.id}}">{{option.name}}</option>-->
+            <!--</select>-->
+        <!--</div>-->
 
         <div class="form-group">
             <button type="submit" ng-click='submitForm()' class="btn btn-primary" ng-disabled="form.inputName.$invalid">Adicionar</button>

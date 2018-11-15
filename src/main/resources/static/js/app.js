@@ -202,30 +202,43 @@ app.controller('FormAlunoController', function ($rootScope, $scope, $http, $stat
     $scope.model.aluno = {};
     $scope.vm = {};
     $scope.vm.responsaveis = [];
-    $scope.vm.turmas = [];
+    // $scope.vm.turmas = [];
     $scope.submitForm = function () {
-        console.log('submit');
-        //TODO
+        console.log($scope.model);
+        $http.post('/api/alunos', $scope.model).then(function successCallback(response) {
+            AlertMessage.show('success', 'Aluno salvo com sucesso! Matriculado na turma= ' + response.data.turma.name);
+        }, function errorCallback(response) {
+            AlertMessage.show('danger', "Erro ao salvar Aluno.");
+        });
     };
     $scope.clearForm = function () {
         $scope.responsavel = {};
     };
     $scope.loadInputs = function () {
         $rootScope.isLoading = true;
-        $http.get('/api/responsaveis').then(function successCallback(response) {
+        $http.get('/api/responsaveis-alunos').then(function successCallback(response) {
             $scope.vm.responsaveis = response.data;
         }, function errorCallback(response) {
             $scope.vm.responsaveis = [];
             AlertMessage.show('danger', "Erro ao carregar os responsaveis");
         });
-        $http.get('/api/turmas').then(function successCallback(response) {
-            $scope.vm.turmas = response.data;
-            $rootScope.isLoading = false;
-        }, function errorCallback(response) {
-            $scope.vm.turmas = [];
-            AlertMessage.show('danger', 'Erro ao carregar as turmas');
-            $rootScope.isLoading = false;
-        });
+        // $http.get('/api/turmas').then(function successCallback(response) {
+        //     $scope.vm.turmas = response.data;
+        //     $rootScope.isLoading = false;
+        // }, function errorCallback(response) {
+        //     $scope.vm.turmas = [];
+        //     AlertMessage.show('danger', 'Erro ao carregar as turmas');
+        //     $rootScope.isLoading = false;
+        // });
+    };
+    $scope.formatResponsaveis = function(mae, pai) {
+        if(mae && pai) {
+            return mae.name + ' e ' + pai.name;
+        } else if (mae) {
+            return mae.name;
+        } else {
+            return '';
+        }
     };
     $scope.loadInputs();
 });

@@ -32,7 +32,7 @@ public class ResponsavelController {
 
     @GetMapping("/{id}")
     public ResponseEntity getResponsavelById(@PathVariable Long id) {
-        LOGGER.info("Requisição Turma por ID: {}", id);
+        LOGGER.info("Requisição Responsável por ID: {}", id);
         Optional<Responsavel> responsavel = responsavelService.findOne(id);
         return responsavel.map(c -> new ResponseEntity<>(c, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

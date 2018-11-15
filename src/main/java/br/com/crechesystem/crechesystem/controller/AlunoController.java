@@ -1,6 +1,7 @@
 package br.com.crechesystem.crechesystem.controller;
 
 import br.com.crechesystem.crechesystem.domain.Aluno;
+import br.com.crechesystem.crechesystem.dto.AlunoDTO;
 import br.com.crechesystem.crechesystem.service.AlunoService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -8,10 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -46,5 +44,12 @@ public class AlunoController {
         } else {
             return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
         }
+    }
+
+    @PostMapping
+    public ResponseEntity<Aluno> create(AlunoDTO alunoDTO) throws Exception {
+        LOGGER.info("Request para criar Aluno");
+        Aluno aluno = alunoService.save(alunoDTO);
+        return new ResponseEntity<>(aluno, HttpStatus.OK);
     }
 }

@@ -34,6 +34,10 @@ public class Aluno {
     @JoinColumn(name="turma_id")
     private Turma turma;
 
+    @ManyToOne
+    @JoinColumn(name="responsavel_aluno_id")
+    private ResponsavelAluno responsavelAluno;
+
     public Long getId() {
         return id;
     }
@@ -66,6 +70,14 @@ public class Aluno {
         this.turma = turma;
     }
 
+    public ResponsavelAluno getResponsavelAluno() {
+        return responsavelAluno;
+    }
+
+    public void setResponsavelAluno(ResponsavelAluno responsavelAluno) {
+        this.responsavelAluno = responsavelAluno;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,12 +85,19 @@ public class Aluno {
 
         Aluno aluno = (Aluno) o;
 
-        return id != null ? id.equals(aluno.id) : aluno.id == null;
+        if (name != null ? !name.equals(aluno.name) : aluno.name != null) return false;
+        if (birthdate != null ? !birthdate.equals(aluno.birthdate) : aluno.birthdate != null) return false;
+        if (turma != null ? !turma.equals(aluno.turma) : aluno.turma != null) return false;
+        return responsavelAluno != null ? responsavelAluno.equals(aluno.responsavelAluno) : aluno.responsavelAluno == null;
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (birthdate != null ? birthdate.hashCode() : 0);
+        result = 31 * result + (turma != null ? turma.hashCode() : 0);
+        result = 31 * result + (responsavelAluno != null ? responsavelAluno.hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -88,6 +107,7 @@ public class Aluno {
                 ", name='" + name + '\'' +
                 ", birthdate=" + birthdate +
                 ", turma=" + turma +
+                ", responsavelAluno=" + responsavelAluno +
                 '}';
     }
 }
