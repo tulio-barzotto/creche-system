@@ -125,7 +125,7 @@ app.controller('TurmaController', function ($rootScope, $scope, $http, $state, A
             $rootScope.isLoading = false;
             $scope.turmas = [];
             AlertMessage.show('danger', 'Erro ao pesquisar as turmas');
-        })
+        });
     };
     $scope.getAll();
 });
@@ -195,4 +195,37 @@ app.controller('AlunoController', function ($rootScope, $scope, $http, $state, A
         $state.go('alunos-new');
     };
     $scope.getAll();
+});
+
+app.controller('FormAlunoController', function ($rootScope, $scope, $http, $state, AlertMessage) {
+    $scope.model = {};
+    $scope.model.aluno = {};
+    $scope.vm = {};
+    $scope.vm.responsaveis = [];
+    $scope.vm.turmas = [];
+    $scope.submitForm = function () {
+        console.log('submit');
+        //TODO
+    };
+    $scope.clearForm = function () {
+        $scope.responsavel = {};
+    };
+    $scope.loadInputs = function () {
+        $rootScope.isLoading = true;
+        $http.get('/api/responsaveis').then(function successCallback(response) {
+            $scope.vm.responsaveis = response.data;
+        }, function errorCallback(response) {
+            $scope.vm.responsaveis = [];
+            AlertMessage.show('danger', "Erro ao carregar os responsaveis");
+        });
+        $http.get('/api/turmas').then(function successCallback(response) {
+            $scope.vm.turmas = response.data;
+            $rootScope.isLoading = false;
+        }, function errorCallback(response) {
+            $scope.vm.turmas = [];
+            AlertMessage.show('danger', 'Erro ao carregar as turmas');
+            $rootScope.isLoading = false;
+        });
+    };
+    $scope.loadInputs();
 });

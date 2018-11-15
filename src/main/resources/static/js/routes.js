@@ -34,5 +34,10 @@ angular.module('app').config(function ($stateProvider, $urlRouterProvider, $http
             url: '/alunos',
             templateUrl: 'template/aluno/alunos.html',
             controller: 'AlunoController'
+        })
+        .state('alunos-new', {
+            url: '/form-alunos',
+            templateUrl: 'template/aluno/form-aluno.html',
+            controller: 'FormAlunoController'
         });
 });

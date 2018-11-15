@@ -21,6 +21,19 @@ body {
 .login-screen h1{
     color: white;
 }
+
+.login-screen input {
+    text-align: center;
+    background-color: #FFFFFF;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 200;
+    padding: 10px 0;
+    width: 250px;
+    transition: border .5s;
+}
+
 .app-title {
     text-align: center;
     color: #777;
@@ -31,18 +44,6 @@ body {
 }
 .control-group {
     margin-bottom: 10px;
-}
-
-input {
-    text-align: center;
-    background-color: #FFFFFF;
-    border: 2px solid transparent;
-    border-radius: 3px;
-    font-size: 16px;
-    font-weight: 200;
-    padding: 10px 0;
-    width: 250px;
-    transition: border .5s;
 }
 
 input:focus {
@@ -118,5 +119,9 @@ input:focus {
 }
 
 .content {
-    margin: 50px;
+    padding: 50px 50px 0 50px;
+}
+
+.label-form {
+    width: 100%;
 }
