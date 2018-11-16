@@ -37,6 +37,6 @@ public class TurmaServiceImpl implements TurmaService {
 
     @Override
     public Optional<Turma> findByBirthMonth(long months) {
-        return this.turmaRepository.findByMinimumMonthsLessThanEqualAndMaximumMonthsLessThanEqual(months);
+        return this.turmaRepository.findTop1ByMinimumMonthsLessThanEqualByMaximumMonthsLessThanEqual(months);
     }
 }

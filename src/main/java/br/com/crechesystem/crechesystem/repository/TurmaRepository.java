@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface TurmaRepository extends JpaRepository<Turma, Long> {
-    Optional<Turma> findByMinimumMonthsLessThanEqualAndMaximumMonthsLessThanEqual(long months);
+    Optional<Turma> findTop1ByMinimumMonthsLessThanEqualByMaximumMonthsLessThanEqual(long months);
 }
