@@ -12,4 +12,8 @@ public final class DateUtils {
     public static long getMonthsBetweenDates(LocalDate initialDate, LocalDate finalDate) {
         return ChronoUnit.MONTHS.between(initialDate, finalDate);
     }
+
+    public static long getMonthFromBirthdate(LocalDate birthdate) {
+        return getMonthsBetweenDates(birthdate, LocalDate.now());
+    }
 }

@@ -199,13 +199,16 @@ app.controller('AlunoController', function ($rootScope, $scope, $http, $state, A
 
 app.controller('FormAlunoController', function ($rootScope, $scope, $http, $state, AlertMessage) {
     $scope.model = {};
-    $scope.model.aluno = {};
     $scope.vm = {};
     $scope.vm.responsaveis = [];
     // $scope.vm.turmas = [];
     $scope.submitForm = function () {
         console.log($scope.model);
-        $http.post('/api/alunos', $scope.model).then(function successCallback(response) {
+        $http.post('/api/alunos', {
+            name : $scope.model.name,
+            birthdate : $scope.model.birthdate,
+            idResponsavelAluno : $scope.model.idResponsavelAluno
+        }).then(function successCallback(response) {
             AlertMessage.show('success', 'Aluno salvo com sucesso! Matriculado na turma= ' + response.data.turma.name);
         }, function errorCallback(response) {
             AlertMessage.show('danger', "Erro ao salvar Aluno.");
@@ -222,14 +225,6 @@ app.controller('FormAlunoController', function ($rootScope, $scope, $http, $stat
             $scope.vm.responsaveis = [];
             AlertMessage.show('danger', "Erro ao carregar os responsaveis");
         });
-        // $http.get('/api/turmas').then(function successCallback(response) {
-        //     $scope.vm.turmas = response.data;
-        //     $rootScope.isLoading = false;
-        // }, function errorCallback(response) {
-        //     $scope.vm.turmas = [];
-        //     AlertMessage.show('danger', 'Erro ao carregar as turmas');
-        //     $rootScope.isLoading = false;
-        // });
     };
     $scope.formatResponsaveis = function(mae, pai) {
         if(mae && pai) {

@@ -34,4 +34,9 @@ public class TurmaServiceImpl implements TurmaService {
         LOGGER.info("Pesquisando todas as Turmas");
         return this.turmaRepository.findAll();
     }
+
+    @Override
+    public Optional<Turma> findByBirthMonth(long months) {
+        return this.turmaRepository.findByMinimumMonthsLessThanEqualAndMaximumMonthsLessThanEqual(months);
+    }
 }
