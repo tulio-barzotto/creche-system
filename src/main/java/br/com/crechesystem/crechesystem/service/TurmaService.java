@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface TurmaService {
     Optional<Turma> findOne(Long id);
     List<Turma> findAll();
+    Optional<Turma> findByBirthMonth(long months);
 }

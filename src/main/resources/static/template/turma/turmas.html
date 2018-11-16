@@ -1,24 +1,22 @@
 <div class="row">
-    <div class="col-md-8 col-sm-10 col-xs-12 col-centered">
+    <div class="card-block col-md-8 col-sm-10 col-xs-12">
         <h3>Turmas</h3>
-    </div>
-    <div class="col-md-8 col-sm-10 col-xs-12 col-centered">
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th>Nome</th>
-                    <th>Lotação máxima</th>
                     <th>Idade mínima(meses)</th>
                     <th>Idade máxima(meses)</th>
+                    <th>Total alunos</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr ng-repeat="turma in turmas | orderBy : 'id'">
                     <td>{{ turma.name }}</td>
-                    <td>{{ turma.maximumCapacity }}</td>
                     <td>{{ turma.minimumMonths }}</td>
                     <td>{{ turma.maximumMonths }}</td>
+                    <td>{{ turma.alunosTotal + ' de ' + turma.maximumCapacity }}</td>
                 </tr>
                 </tbody>
             </table>

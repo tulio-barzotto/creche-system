@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/user")
 public class UserController {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     public UserController() {
@@ -22,7 +22,7 @@ public class UserController {
 
     @GetMapping(value = "/current")
     public ResponseEntity getCurrentUser(@CurrentUser Authentication authentication) {
-        logger.info("Get current user info");
+        LOGGER.info("Get current user info");
         return ResponseEntity.ok(authentication.getDetails());
     }
 }

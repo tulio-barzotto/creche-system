@@ -74,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 //allow all static resources
-                .antMatchers("/js/**", "/lib/**", "/template/**").permitAll()
+                .antMatchers("/js/**", "/styles/**", "/lib/**", "/template/**", "/images/**", "/favicon.ico").permitAll()
 
                 //allow Swagger
                 .antMatchers("/api/swagger-ui.html", "/v2/api-docs").permitAll()
@@ -83,10 +83,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/", "/index.html").permitAll()
 
                 //allow anonymous POSTs to login, signup
-                .antMatchers(HttpMethod.POST, "/api/login", "/api/signup").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/login").permitAll()
 
                 //authenticate all others
-                .anyRequest().permitAll().and()
+                .anyRequest().authenticated().and()
 
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
