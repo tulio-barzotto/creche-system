@@ -9,11 +9,11 @@ public final class DateUtils {
         throw new IllegalStateException("Utility class");
     }
 
-    public static long getMonthsBetweenDates(LocalDate initialDate, LocalDate finalDate) {
-        return ChronoUnit.MONTHS.between(initialDate, finalDate);
+    public static int getMonthsBetweenDates(LocalDate initialDate, LocalDate finalDate) {
+        return (int) ChronoUnit.MONTHS.between(initialDate, finalDate);
     }
 
-    public static long getMonthFromBirthdate(LocalDate birthdate) {
+    public static int getMonthFromBirthdate(LocalDate birthdate) {
         return getMonthsBetweenDates(birthdate, LocalDate.now());
     }
 }
