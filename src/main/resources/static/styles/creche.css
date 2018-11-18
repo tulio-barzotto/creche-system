@@ -129,3 +129,15 @@ input:focus {
 #ng-alerts-queue {
     margin-top: 60px;
 }
+
+.navbar-default .navbar-brand {
+    color: #FFFFFF;
+}
+
+.navbar-default .navbar-brand:hover {
+    color: #C2FFA4;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #C2FFA4;
+}
