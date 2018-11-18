@@ -1,25 +1,22 @@
 package br.com.crechesystem.crechesystem.domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Set;
 
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "turma")
-public class Turma {
+public class Turma implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty
@@ -36,6 +33,7 @@ public class Turma {
     @Column(name = "maximo_meses")
     private int maximumMonths;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "turma")
     private Set<Aluno> alunos;
 

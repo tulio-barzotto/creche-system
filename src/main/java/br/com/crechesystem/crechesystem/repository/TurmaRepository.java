@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface TurmaRepository extends JpaRepository<Turma, Long> {
     @Query(
-            value = "SELECT TOP 1 * FROM TURMA t WHERE t.minimumMonths <= ?1 AND t.maximumMonths >= ?1",
+            value = " SELECT * FROM TURMA t WHERE t.minimo_meses <= ?1 AND t.maximo_meses >= ?1 limit 1 ",
             nativeQuery = true)
     Optional<Turma> findByMinAndMaxMonths(int months);
 }

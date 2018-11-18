@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,7 +54,7 @@ public class AlunoServiceImpl implements AlunoService {
         if(optResponsavelAluno.isPresent() && optTurma.isPresent()) {
             Aluno aluno = new Aluno();
             aluno.setName(alunoDTO.getName());
-            aluno.setBirthdate(alunoDTO.getBirthdate());
+            aluno.setBirthdate(Date.valueOf(alunoDTO.getBirthdate()));
             aluno.setResponsavelAluno(optResponsavelAluno.get());
             aluno.setTurma(optTurma.get());
             return alunoRepository.save(aluno);
@@ -69,7 +70,7 @@ public class AlunoServiceImpl implements AlunoService {
         }
         Optional<Turma> optTurma = turmaService.findByBirthMonth(DateUtils.getMonthFromBirthdate(alunoDTO.getBirthdate()));
         if(!optTurma.isPresent()) {
-            throw new BusinessRuleException("Turma não encontrada");
+            throw new BusinessRuleException("Turma não encontrada para idade do aluno");
         } else {
             Turma turma = optTurma.get();
             if(turma.getAlunosTotal() + 1 >= turma.getMaximumCapacity()) {

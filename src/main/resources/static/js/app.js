@@ -9,7 +9,7 @@ app.config(['ngAlertsProvider', function (ngAlertsProvider) {
     ngAlertsProvider.options.emptyListText = 'Vazio';
 
     // The queue timeout for new alerts.
-    ngAlertsProvider.options.queueTimeout = 3000;
+    ngAlertsProvider.options.queueTimeout = 5000;
 
     // The queue location (top||bottom, left||right).
     ngAlertsProvider.options.queueLocation = 'top right';
@@ -210,8 +210,9 @@ app.controller('FormAlunoController', function ($rootScope, $scope, $http, $stat
             idResponsavelAluno : $scope.model.idResponsavelAluno
         }).then(function successCallback(response) {
             AlertMessage.show('success', 'Aluno salvo com sucesso! Matriculado na turma= ' + response.data.turma.name);
+            $state.go('alunos');
         }, function errorCallback(response) {
-            AlertMessage.show('danger', "Erro ao salvar Aluno.");
+            AlertMessage.show('danger', "Erro ao salvar Aluno. " + response.data.message);
         });
     };
     $scope.clearForm = function () {

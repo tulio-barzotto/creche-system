@@ -47,7 +47,7 @@ public class AlunoController {
     }
 
     @PostMapping
-    public ResponseEntity<Aluno> create(AlunoDTO alunoDTO) throws Exception {
+    public ResponseEntity<Aluno> create(@RequestBody AlunoDTO alunoDTO) throws Exception {
         LOGGER.info("Request para criar Aluno");
         Aluno aluno = alunoService.save(alunoDTO);
         return new ResponseEntity<>(aluno, HttpStatus.OK);

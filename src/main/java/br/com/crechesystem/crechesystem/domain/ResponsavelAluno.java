@@ -6,13 +6,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "responsavel_aluno")
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ResponsavelAluno implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
