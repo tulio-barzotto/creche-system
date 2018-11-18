@@ -125,3 +125,7 @@ input:focus {
 .label-form {
     width: 100%;
 }
+
+#ng-alerts-queue {
+    margin-top: 60px;
+}

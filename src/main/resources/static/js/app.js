@@ -169,7 +169,7 @@ app.controller('FormResponsavelController', function ($rootScope, $scope, $http,
     };
 });
 
-app.controller('AlunoController', function ($rootScope, $scope, $http, $state, AlertMessage) {
+app.controller('AlunoController', function ($rootScope, $scope, $http, $state, AlertMessage, $window) {
     $rootScope.isLoading = false;
     $scope.alunos = [];
     $scope.getAll = function () {
@@ -180,7 +180,7 @@ app.controller('AlunoController', function ($rootScope, $scope, $http, $state, A
         }, function errorCallback(response) {
             $rootScope.isLoading = false;
             $scope.alunos = [];
-            AlertMessage.show('danger', "Erro ao pesquisar os alunos");
+            AlertMessage.show('danger', 'Erro ao pesquisar os alunos');
         })
     };
     $scope.edit = function (aluno) {
@@ -188,8 +188,18 @@ app.controller('AlunoController', function ($rootScope, $scope, $http, $state, A
         //TODO
     };
     $scope.delete = function (aluno) {
-        console.log('Remover= ' + aluno);
-        //TODO
+        console.log(aluno);
+        if ($window.confirm('Tem certeza que deseja deletar ' + aluno.name + '?')) {
+            $rootScope.isLoading = true;
+            $http.delete('/api/alunos/' + aluno.id).then(function successCallback(response) {
+                $scope.getAll();
+                AlertMessage.show('success', 'Aluno deletado com sucesso');
+                $rootScope.isLoading = false;
+            }, function errorCallback(response) {
+                $rootScope.isLoading = false;
+                AlertMessage.show('danger', 'Erro ao deletar aluno');
+            })
+        }
     };
     $scope.new = function () {
         $state.go('alunos-new');

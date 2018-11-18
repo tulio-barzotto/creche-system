@@ -36,7 +36,7 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public Optional<Aluno> findOne(Long id) {
-        LOGGER.info("Pesquisando Aluno pelo ID: {}", id);
+        LOGGER.info("Pesquisando aluno pelo ID: {}", id);
         return this.alunoRepository.findById(id);
     }
 
@@ -47,7 +47,7 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public Aluno save(AlunoDTO alunoDTO) throws Exception {
-        LOGGER.info("Salvando usuário: {}", alunoDTO);
+        LOGGER.info("Salvando aluno: {}", alunoDTO);
         this.isValid(alunoDTO);
         Optional<ResponsavelAluno> optResponsavelAluno = responsavelAlunoService.findOne(alunoDTO.getIdResponsavelAluno());
         Optional<Turma> optTurma = turmaService.findByBirthMonth(DateUtils.getMonthFromBirthdate(alunoDTO.getBirthdate()));
@@ -60,6 +60,17 @@ public class AlunoServiceImpl implements AlunoService {
             return alunoRepository.save(aluno);
         } else {
             throw new BusinessRuleException("Erro ao salvar Aluno");
+        }
+    }
+
+    @Override
+    public void delete(Long id) throws Exception {
+        LOGGER.info("Deletando aluno ID: {}", id);
+        Optional<Aluno> aluno = findOne(id);
+        if(aluno.isPresent()) {
+            alunoRepository.delete(aluno.get());
+        } else {
+            throw new Exception("Aluno não encontrado");
         }
     }
 

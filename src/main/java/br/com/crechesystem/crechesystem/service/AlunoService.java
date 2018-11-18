@@ -10,4 +10,5 @@ public interface AlunoService {
     Optional<Aluno> findOne(Long id);
     List<Aluno> findAll();
     Aluno save(AlunoDTO alunoDTO) throws Exception;
+    void delete(Long id) throws Exception;
 }
