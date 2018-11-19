@@ -211,7 +211,7 @@ app.controller('FormAlunoController', function ($rootScope, $scope, $http, $stat
     $scope.model = {};
     $scope.vm = {};
     $scope.vm.responsaveis = [];
-    // $scope.vm.turmas = [];
+    $scope.model.cadastrarPai = false;
     $scope.submitForm = function () {
         console.log($scope.model);
         $http.post('/api/alunos', {
