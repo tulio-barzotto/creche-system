@@ -43,7 +43,8 @@ public class ResponsavelAlunoServiceImpl implements ResponsavelAlunoService {
     @Override
     public ResponsavelAluno save(ResponsavelAlunoDTO responsavelAlunoDTO) throws Exception {
         LOGGER.info("Salvando Responsavel aluno: {}", responsavelAlunoDTO);
-        //TODO: validações
+        //TODO Validar dados
+        //TODO Verificar se já existe aluno vinculado
         Responsavel responsavelMae = responsavelService.save(this.buildResponsavel(responsavelAlunoDTO.getResponsavelMae()));
         Responsavel responsavelPai = responsavelService.save(this.buildResponsavel(responsavelAlunoDTO.getResponsavelPai()));
         ResponsavelAluno responsavelAluno = new ResponsavelAluno();

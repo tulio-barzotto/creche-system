@@ -136,7 +136,7 @@ app.controller('ResponsavelController', function ($rootScope, $scope, $http, $st
     $scope.responsaveis = [];
     $scope.getAll = function () {
         $rootScope.isLoading = true;
-        $http.get('/api/responsaveis').then(function successCallback(response) {
+        $http.get('/api/responsaveis-alunos').then(function successCallback(response) {
             $scope.responsaveis = response.data;
             $rootScope.isLoading = false;
         }, function errorCallback(response) {
