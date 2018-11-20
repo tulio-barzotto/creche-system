@@ -33,4 +33,10 @@ public class ResponsavelServiceImpl implements ResponsavelService {
         LOGGER.info("Pesquisando todas os Responsáveis");
         return this.responsavelRepository.findAll();
     }
+
+    @Override
+    public Responsavel save(Responsavel responsavel) {
+        LOGGER.info("Salvando Responsavel: {}", responsavel);
+        return this.responsavelRepository.save(responsavel);
+    }
 }

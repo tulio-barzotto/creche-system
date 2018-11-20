@@ -1,7 +1,8 @@
 var app = angular.module('app', [
     'ui.router',
     'ngAlerts',
-    'ngMaterial'
+    'ngMaterial',
+    'ui.utils.masks'
 ]);
 
 app.config(['ngAlertsProvider', function (ngAlertsProvider) {
@@ -159,13 +160,25 @@ app.controller('ResponsavelController', function ($rootScope, $scope, $http, $st
 });
 
 app.controller('FormResponsavelController', function ($rootScope, $scope, $http, $state, AlertMessage) {
-    $scope.responsavel = {};
+    $scope.model = {};
+    $scope.cadastrarPai = false;
+    $scope.states = ['AC','AL','AM','AP','BA','CE','DF','ES','GO','MA',
+        'MG','MS','MT','PA','PB','PE','PI','PR','RJ','RN','RO','RR',
+        'RS','SC','SE','SP','TO'];
     $scope.submitForm = function () {
-        console.log('submit');
-        //TODO
+        if(!$scope.cadastrarPai) {
+            $scope.model.pai = null;
+        }
+        console.log($scope.model);
+        $http.post('/api/responsaveis-alunos', $scope.model).then(function successCallback(response) {
+            AlertMessage.show('success', 'Responsavel Aluno salvo com sucesso!');
+            $state.go('responsaveis');
+        }, function errorCallback(response) {
+            AlertMessage.show('danger', "Erro ao salvar Responsavel Aluno. " + response.data.message);
+        });
     };
     $scope.clearForm = function () {
-        $scope.responsavel = {};
+        $scope.model = {};
     };
 });
 
@@ -182,10 +195,6 @@ app.controller('AlunoController', function ($rootScope, $scope, $http, $state, A
             $scope.alunos = [];
             AlertMessage.show('danger', 'Erro ao pesquisar os alunos');
         })
-    };
-    $scope.edit = function (aluno) {
-        console.log('Editar= ' + aluno);
-        //TODO
     };
     $scope.delete = function (aluno) {
         console.log(aluno);
@@ -211,7 +220,6 @@ app.controller('FormAlunoController', function ($rootScope, $scope, $http, $stat
     $scope.model = {};
     $scope.vm = {};
     $scope.vm.responsaveis = [];
-    $scope.model.cadastrarPai = false;
     $scope.submitForm = function () {
         console.log($scope.model);
         $http.post('/api/alunos', {

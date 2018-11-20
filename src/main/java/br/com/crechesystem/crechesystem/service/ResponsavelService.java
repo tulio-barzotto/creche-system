@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface ResponsavelService {
     Optional<Responsavel> findOne(Long id);
     List<Responsavel> findAll();
+    Responsavel save(Responsavel responsavel);
 }

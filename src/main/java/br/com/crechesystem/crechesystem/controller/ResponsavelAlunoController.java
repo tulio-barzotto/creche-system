@@ -1,6 +1,7 @@
 package br.com.crechesystem.crechesystem.controller;
 
 import br.com.crechesystem.crechesystem.domain.ResponsavelAluno;
+import br.com.crechesystem.crechesystem.dto.ResponsavelAlunoDTO;
 import br.com.crechesystem.crechesystem.service.ResponsavelAlunoService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -8,10 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -45,6 +43,24 @@ public class ResponsavelAlunoController {
             return new ResponseEntity<>(responsaveisAlunos, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(Collections.emptyList(), HttpStatus.OK);
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<ResponsavelAluno> create(@RequestBody ResponsavelAlunoDTO responsavelAlunoDTO) throws Exception {
+        LOGGER.info("Request para criar Responsável aluno");
+        ResponsavelAluno responsavelAluno = responsavelAlunoService.save(responsavelAlunoDTO);
+        return new ResponseEntity<>(responsavelAluno, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteResponsavelAlunoById(@PathVariable Long id) {
+        LOGGER.info("Requisição para deletar Responsavel aluno ID: {}", id);
+        try{
+            responsavelAlunoService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
         }
     }
 }
