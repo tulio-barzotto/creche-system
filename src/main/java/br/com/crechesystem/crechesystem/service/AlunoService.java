@@ -11,4 +11,5 @@ public interface AlunoService {
     List<Aluno> findAll();
     Aluno save(AlunoDTO alunoDTO) throws Exception;
     void delete(Long id) throws Exception;
+    boolean existsByIdResponsavelAluno(Long idResponsavelAluno);
 }

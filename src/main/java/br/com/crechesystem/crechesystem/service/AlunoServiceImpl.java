@@ -74,6 +74,11 @@ public class AlunoServiceImpl implements AlunoService {
         }
     }
 
+    @Override
+    public boolean existsByIdResponsavelAluno(Long idResponsavelAluno) {
+        return alunoRepository.countByIdResponsavelAluno(idResponsavelAluno) > 0;
+    }
+
     private void isValid(AlunoDTO alunoDTO) throws BusinessRuleException {
         Optional<ResponsavelAluno> optResponsavelAluno = responsavelAlunoService.findOne(alunoDTO.getIdResponsavelAluno());
         if(!optResponsavelAluno.isPresent()) {
