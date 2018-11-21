@@ -70,7 +70,7 @@ public class AlunoServiceImpl implements AlunoService {
         if(aluno.isPresent()) {
             alunoRepository.delete(aluno.get());
         } else {
-            throw new Exception("Aluno não encontrado");
+            throw new BusinessRuleException("Aluno não encontrado");
         }
     }
 
