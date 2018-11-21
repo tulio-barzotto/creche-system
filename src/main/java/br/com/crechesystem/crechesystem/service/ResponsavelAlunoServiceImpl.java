@@ -4,6 +4,7 @@ import br.com.crechesystem.crechesystem.domain.Responsavel;
 import br.com.crechesystem.crechesystem.domain.ResponsavelAluno;
 import br.com.crechesystem.crechesystem.dto.ResponsavelAlunoDTO;
 import br.com.crechesystem.crechesystem.dto.ResponsavelDTO;
+import br.com.crechesystem.crechesystem.exceptions.BusinessRuleException;
 import br.com.crechesystem.crechesystem.repository.ResponsavelAlunoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,12 +65,12 @@ public class ResponsavelAlunoServiceImpl implements ResponsavelAlunoService {
         Optional<ResponsavelAluno> responsavelAluno = findOne(id);
         if(responsavelAluno.isPresent()) {
             if(alunoService.existsByIdResponsavelAluno(id)){
-                throw new Exception("Responsavel já possui aluno vinculado");
+                throw new BusinessRuleException("Responsavel já possui aluno vinculado");
             } else {
                 responsavelAlunoRepository.delete(responsavelAluno.get());
             }
         } else {
-            throw new Exception("Responsavel Aluno não encontrado");
+            throw new BusinessRuleException("Responsavel Aluno não encontrado");
         }
     }
 
