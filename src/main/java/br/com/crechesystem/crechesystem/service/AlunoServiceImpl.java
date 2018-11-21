@@ -84,7 +84,7 @@ public class AlunoServiceImpl implements AlunoService {
             throw new BusinessRuleException("Turma não encontrada para idade do aluno");
         } else {
             Turma turma = optTurma.get();
-            if(turma.getAlunosTotal() + 1 >= turma.getMaximumCapacity()) {
+            if(turma.getAlunosTotal() + 1 > turma.getMaximumCapacity()) {
                 throw new BusinessRuleException("Turma " + turma.getName() + " atingiu a capacidade máxima de alunos");
             }
         }
