@@ -131,7 +131,7 @@ app.controller('TurmaController', function ($rootScope, $scope, $http, $state, A
     $scope.getAll();
 });
 
-app.controller('ResponsavelController', function ($rootScope, $scope, $http, $state, AlertMessage) {
+app.controller('ResponsavelController', function ($rootScope, $scope, $http, $state, AlertMessage, $window) {
     $rootScope.isLoading = false;
     $scope.responsaveis = [];
     $scope.getAll = function () {
@@ -145,13 +145,18 @@ app.controller('ResponsavelController', function ($rootScope, $scope, $http, $st
             AlertMessage.show('danger', "Erro ao pesquisar os responsaveis");
         })
     };
-    $scope.edit = function (responsavel) {
-        console.log('Editar= ' + responsavel);
-        //TODO
-    };
     $scope.delete = function (responsavel) {
-        console.log('Remover= ' + responsavel);
-        //TODO
+        if ($window.confirm('Tem certeza que deseja deletar responsavel mae= ' + responsavel.responsavelMae.name + '?')) {
+            $rootScope.isLoading = true;
+            $http.delete('/api/responsaveis-alunos/' + responsavel.id).then(function successCallback(response) {
+                $scope.getAll();
+                AlertMessage.show('success', 'Responsavel Aluno deletado com sucesso');
+                $rootScope.isLoading = false;
+            }, function errorCallback(response) {
+                $rootScope.isLoading = false;
+                AlertMessage.show('danger', 'Erro ao deletar responsavel aluno');
+            })
+        }
     };
     $scope.new = function () {
         $state.go('responsaveis-new');
@@ -167,7 +172,14 @@ app.controller('FormResponsavelController', function ($rootScope, $scope, $http,
         'RS','SC','SE','SP','TO'];
     $scope.submitForm = function () {
         if(!$scope.cadastrarPai) {
-            $scope.model.pai = null;
+            $scope.model.responsavelPai = null;
+            $scope.model.responsavelMae.dddPhoneNumber = $scope.extractDddPhoneNumber($scope.model.responsavelMae.phone);
+            $scope.model.responsavelMae.phoneNumber = $scope.extractPhoneNumber($scope.model.responsavelMae.phone);
+        } else {
+            $scope.model.responsavelPai.dddPhoneNumber = $scope.extractDddPhoneNumber($scope.model.responsavelPai.phone);
+            $scope.model.responsavelPai.phoneNumber = $scope.extractPhoneNumber($scope.model.responsavelPai.phone);
+            $scope.model.responsavelMae.dddPhoneNumber = $scope.extractDddPhoneNumber($scope.model.responsavelMae.phone);
+            $scope.model.responsavelMae.phoneNumber = $scope.extractPhoneNumber($scope.model.responsavelMae.phone);
         }
         console.log($scope.model);
         $http.post('/api/responsaveis-alunos', $scope.model).then(function successCallback(response) {
@@ -176,6 +188,20 @@ app.controller('FormResponsavelController', function ($rootScope, $scope, $http,
         }, function errorCallback(response) {
             AlertMessage.show('danger', "Erro ao salvar Responsavel Aluno. " + response.data.message);
         });
+    };
+    $scope.extractDddPhoneNumber = function(phone) {
+        if(phone) {
+            return phone.substr(0, 2);
+        } else {
+            return null;
+        }
+    };
+    $scope.extractPhoneNumber = function(phone) {
+        if(phone) {
+            return phone.substr(2, phone.length);
+        } else {
+            return null;
+        }
     };
     $scope.clearForm = function () {
         $scope.model = {};

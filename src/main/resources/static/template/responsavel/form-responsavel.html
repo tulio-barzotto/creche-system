@@ -7,26 +7,26 @@
                 <div class="form-group">
                     <label for="inputName" class="control-label">Nome</label>
                     <input type="text" id="inputName" name="inputName" class="form-control"
-                           ng-maxlength="100" required aria-required="true" ng-model="model.mae.name"/>
+                           ng-maxlength="100" required aria-required="true" ng-model="model.responsavelMae.name"/>
                 </div>
                 <div class="form-group">
                     <label for="inputPhone" class="control-label">Telefone</label>
-                    <input type="text" id="inputPhone" name="inputPhone" ng-model="model.mae.phone" ui-br-phone-number  class="form-control">
+                    <input type="text" id="inputPhone" name="inputPhone" ng-model="model.responsavelMae.phone" ui-br-phone-number  class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="inputAddress" class="control-label">Endereço</label>
                     <input type="text" id="inputAddress" name="inputAddress" class="form-control"
-                           ng-maxlength="100" required aria-required="true" ng-model="model.mae.address"/>
+                           ng-maxlength="100" required aria-required="true" ng-model="model.responsavelMae.address"/>
                 </div>
                 <div class="form-group">
                     <label for="inputCity" class="control-label">Município</label>
                     <input type="text" id="inputCity" name="inputCity" class="form-control"
-                           ng-maxlength="100" required aria-required="true" ng-model="model.mae.city"/>
+                           ng-maxlength="100" required aria-required="true" ng-model="model.responsavelMae.city"/>
                 </div>
                 <div class="form-group">
                     <label for="inputUf" class="control-label">UF</label>
-                    <select class="form-control" name="inputUf" id="inputUf" ng-model="model.mae.uf" required>
-                        <option ng-repeat="option in $scope.states" value="{{option}}">{{option}}</option>
+                    <select class="form-control" name="inputUf" id="inputUf" ng-model="model.responsavelMae.uf" required>
+                        <option ng-repeat="option in states" value="{{option}}">{{option}}</option>
                     </select>
                 </div>
             </fieldset>
@@ -42,25 +42,25 @@
                 <div class="form-group">
                     <label for="inputNamePai" class="control-label">Nome</label>
                     <input type="text" id="inputNamePai" name="v" class="form-control"
-                           ng-maxlength="100" required aria-required="true" ng-model="model.pai.name"/>
+                           ng-maxlength="100" required aria-required="true" ng-model="model.responsavelPai.name"/>
                 </div>
                 <div class="form-group">
                     <label for="inputPhonePai" class="control-label">DDD</label>
-                    <input type="text" id="inputPhonePai" name="inputPhonePai" ng-model="model.pai.phone" ui-br-phone-number  class="form-control">
+                    <input type="text" id="inputPhonePai" name="inputPhonePai" ng-model="model.responsavelPai.phone" ui-br-phone-number  class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="inputAddressPai" class="control-label">Endereço</label>
                     <input type="text" id="inputAddressPai" name="inputAddressPai" class="form-control"
-                           ng-maxlength="100" required aria-required="true" ng-model="model.pai.address"/>
+                           ng-maxlength="100" required aria-required="true" ng-model="model.responsavelPai.address"/>
                 </div>
                 <div class="form-group">
                     <label for="inputCityPai" class="control-label">Município</label>
                     <input type="text" id="inputCityPai" name="inputCityPai" class="form-control"
-                           ng-maxlength="100" required aria-required="true" ng-model="model.pai.city"/>
+                           ng-maxlength="100" required aria-required="true" ng-model="model.responsavelPai.city"/>
                 </div>
                 <div class="form-group">
                     <label for="inputUfPai" class="control-label">UF</label>
-                    <select class="form-control" name="inputUfPai" id="inputUfPai" ng-model="model.pai.uf" required>
+                    <select class="form-control" name="inputUfPai" id="inputUfPai" ng-model="model.responsavelPai.uf" required>
                         <option ng-repeat="option in $scope.states" value="{{option}}">{{option}}</option>
                     </select>
                 </div>

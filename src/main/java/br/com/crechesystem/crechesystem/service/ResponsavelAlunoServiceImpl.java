@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,11 +41,11 @@ public class ResponsavelAlunoServiceImpl implements ResponsavelAlunoService {
         return this.responsavelAlunoRepository.findAll();
     }
 
+    @Transactional
     @Override
     public ResponsavelAluno save(ResponsavelAlunoDTO responsavelAlunoDTO) throws Exception {
         LOGGER.info("Salvando Responsavel aluno: {}", responsavelAlunoDTO);
         //TODO Validar dados
-        //TODO Verificar se já existe aluno vinculado
         Responsavel responsavelMae = responsavelService.save(this.buildResponsavel(responsavelAlunoDTO.getResponsavelMae()));
         Responsavel responsavelPai = responsavelService.save(this.buildResponsavel(responsavelAlunoDTO.getResponsavelPai()));
         ResponsavelAluno responsavelAluno = new ResponsavelAluno();
@@ -57,6 +58,7 @@ public class ResponsavelAlunoServiceImpl implements ResponsavelAlunoService {
     public void delete(Long id) throws Exception {
         LOGGER.info("Deletando Responsavel aluno ID: {}", id);
         Optional<ResponsavelAluno> responsavelAluno = findOne(id);
+        //TODO Verificar se já existe aluno vinculado
         if(responsavelAluno.isPresent()) {
             responsavelAlunoRepository.delete(responsavelAluno.get());
         } else {

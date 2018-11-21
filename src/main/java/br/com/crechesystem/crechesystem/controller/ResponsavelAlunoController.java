@@ -48,7 +48,7 @@ public class ResponsavelAlunoController {
 
     @PostMapping
     public ResponseEntity<ResponsavelAluno> create(@RequestBody ResponsavelAlunoDTO responsavelAlunoDTO) throws Exception {
-        LOGGER.info("Request para criar Responsável aluno");
+        LOGGER.info("Request para criar Responsável aluno {}", responsavelAlunoDTO);
         ResponsavelAluno responsavelAluno = responsavelAlunoService.save(responsavelAlunoDTO);
         return new ResponseEntity<>(responsavelAluno, HttpStatus.OK);
     }

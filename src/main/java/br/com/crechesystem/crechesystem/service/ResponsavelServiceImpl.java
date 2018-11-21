@@ -37,6 +37,10 @@ public class ResponsavelServiceImpl implements ResponsavelService {
     @Override
     public Responsavel save(Responsavel responsavel) {
         LOGGER.info("Salvando Responsavel: {}", responsavel);
-        return this.responsavelRepository.save(responsavel);
+        if(responsavel != null) {
+            return this.responsavelRepository.save(responsavel);
+        } else {
+            return null;
+        }
     }
 }
