@@ -1,7 +1,8 @@
 var app = angular.module('app', [
     'ui.router',
     'ngAlerts',
-    'ngMaterial'
+    'ngMaterial',
+    'ui.utils.masks'
 ]);
 
 app.config(['ngAlertsProvider', function (ngAlertsProvider) {
@@ -9,7 +10,7 @@ app.config(['ngAlertsProvider', function (ngAlertsProvider) {
     ngAlertsProvider.options.emptyListText = 'Vazio';
 
     // The queue timeout for new alerts.
-    ngAlertsProvider.options.queueTimeout = 3000;
+    ngAlertsProvider.options.queueTimeout = 5000;
 
     // The queue location (top||bottom, left||right).
     ngAlertsProvider.options.queueLocation = 'top right';
@@ -81,7 +82,7 @@ app.controller('HomeController', function ($rootScope, $scope, $state, $http, To
 });
 
 app.controller('LoginController', function ($rootScope, $scope, $http, $state, TokenStore, AlertMessage) {
-    $rootScope.isLoading = true;
+    $rootScope.isLoading = false;
     $rootScope.showNavbar = function () {
         return typeof $rootScope.currentUser !== "undefined";
     };
@@ -130,12 +131,12 @@ app.controller('TurmaController', function ($rootScope, $scope, $http, $state, A
     $scope.getAll();
 });
 
-app.controller('ResponsavelController', function ($rootScope, $scope, $http, $state, AlertMessage) {
+app.controller('ResponsavelController', function ($rootScope, $scope, $http, $state, AlertMessage, $window) {
     $rootScope.isLoading = false;
     $scope.responsaveis = [];
     $scope.getAll = function () {
         $rootScope.isLoading = true;
-        $http.get('/api/responsaveis').then(function successCallback(response) {
+        $http.get('/api/responsaveis-alunos').then(function successCallback(response) {
             $scope.responsaveis = response.data;
             $rootScope.isLoading = false;
         }, function errorCallback(response) {
@@ -144,13 +145,18 @@ app.controller('ResponsavelController', function ($rootScope, $scope, $http, $st
             AlertMessage.show('danger', "Erro ao pesquisar os responsaveis");
         })
     };
-    $scope.edit = function (responsavel) {
-        console.log('Editar= ' + responsavel);
-        //TODO
-    };
     $scope.delete = function (responsavel) {
-        console.log('Remover= ' + responsavel);
-        //TODO
+        if ($window.confirm('Tem certeza que deseja deletar responsavel mae= ' + responsavel.responsavelMae.name + '?')) {
+            $rootScope.isLoading = true;
+            $http.delete('/api/responsaveis-alunos/' + responsavel.id).then(function successCallback(response) {
+                $scope.getAll();
+                AlertMessage.show('success', 'Responsavel Aluno deletado com sucesso');
+                $rootScope.isLoading = false;
+            }, function errorCallback(response) {
+                $rootScope.isLoading = false;
+                AlertMessage.show('danger', 'Erro ao deletar responsavel aluno');
+            })
+        }
     };
     $scope.new = function () {
         $state.go('responsaveis-new');
@@ -159,17 +165,49 @@ app.controller('ResponsavelController', function ($rootScope, $scope, $http, $st
 });
 
 app.controller('FormResponsavelController', function ($rootScope, $scope, $http, $state, AlertMessage) {
-    $scope.responsavel = {};
+    $scope.model = {};
+    $scope.cadastrarPai = false;
+    $scope.states = ['AC','AL','AM','AP','BA','CE','DF','ES','GO','MA',
+        'MG','MS','MT','PA','PB','PE','PI','PR','RJ','RN','RO','RR',
+        'RS','SC','SE','SP','TO'];
     $scope.submitForm = function () {
-        console.log('submit');
-        //TODO
+        if(!$scope.cadastrarPai) {
+            $scope.model.responsavelPai = null;
+            $scope.model.responsavelMae.dddPhoneNumber = $scope.extractDddPhoneNumber($scope.model.responsavelMae.phone);
+            $scope.model.responsavelMae.phoneNumber = $scope.extractPhoneNumber($scope.model.responsavelMae.phone);
+        } else {
+            $scope.model.responsavelPai.dddPhoneNumber = $scope.extractDddPhoneNumber($scope.model.responsavelPai.phone);
+            $scope.model.responsavelPai.phoneNumber = $scope.extractPhoneNumber($scope.model.responsavelPai.phone);
+            $scope.model.responsavelMae.dddPhoneNumber = $scope.extractDddPhoneNumber($scope.model.responsavelMae.phone);
+            $scope.model.responsavelMae.phoneNumber = $scope.extractPhoneNumber($scope.model.responsavelMae.phone);
+        }
+        $http.post('/api/responsaveis-alunos', $scope.model).then(function successCallback(response) {
+            AlertMessage.show('success', 'Responsavel Aluno salvo com sucesso!');
+            $state.go('responsaveis');
+        }, function errorCallback(response) {
+            AlertMessage.show('danger', "Erro ao salvar Responsavel Aluno. " + response.data.message);
+        });
+    };
+    $scope.extractDddPhoneNumber = function(phone) {
+        if(phone) {
+            return phone.substr(0, 2);
+        } else {
+            return null;
+        }
+    };
+    $scope.extractPhoneNumber = function(phone) {
+        if(phone) {
+            return phone.substr(2, phone.length);
+        } else {
+            return null;
+        }
     };
     $scope.clearForm = function () {
-        $scope.responsavel = {};
+        $scope.model = {};
     };
 });
 
-app.controller('AlunoController', function ($rootScope, $scope, $http, $state, AlertMessage) {
+app.controller('AlunoController', function ($rootScope, $scope, $http, $state, AlertMessage, $window) {
     $rootScope.isLoading = false;
     $scope.alunos = [];
     $scope.getAll = function () {
@@ -180,16 +218,21 @@ app.controller('AlunoController', function ($rootScope, $scope, $http, $state, A
         }, function errorCallback(response) {
             $rootScope.isLoading = false;
             $scope.alunos = [];
-            AlertMessage.show('danger', "Erro ao pesquisar os alunos");
+            AlertMessage.show('danger', 'Erro ao pesquisar os alunos');
         })
     };
-    $scope.edit = function (aluno) {
-        console.log('Editar= ' + aluno);
-        //TODO
-    };
     $scope.delete = function (aluno) {
-        console.log('Remover= ' + aluno);
-        //TODO
+        if ($window.confirm('Tem certeza que deseja deletar ' + aluno.name + '?')) {
+            $rootScope.isLoading = true;
+            $http.delete('/api/alunos/' + aluno.id).then(function successCallback(response) {
+                $scope.getAll();
+                AlertMessage.show('success', 'Aluno deletado com sucesso');
+                $rootScope.isLoading = false;
+            }, function errorCallback(response) {
+                $rootScope.isLoading = false;
+                AlertMessage.show('danger', 'Erro ao deletar aluno');
+            })
+        }
     };
     $scope.new = function () {
         $state.go('alunos-new');
@@ -201,17 +244,16 @@ app.controller('FormAlunoController', function ($rootScope, $scope, $http, $stat
     $scope.model = {};
     $scope.vm = {};
     $scope.vm.responsaveis = [];
-    // $scope.vm.turmas = [];
     $scope.submitForm = function () {
-        console.log($scope.model);
         $http.post('/api/alunos', {
             name : $scope.model.name,
             birthdate : $scope.model.birthdate,
             idResponsavelAluno : $scope.model.idResponsavelAluno
         }).then(function successCallback(response) {
             AlertMessage.show('success', 'Aluno salvo com sucesso! Matriculado na turma= ' + response.data.turma.name);
+            $state.go('alunos');
         }, function errorCallback(response) {
-            AlertMessage.show('danger', "Erro ao salvar Aluno.");
+            AlertMessage.show('danger', "Erro ao salvar Aluno. " + response.data.message);
         });
     };
     $scope.clearForm = function () {
@@ -221,8 +263,10 @@ app.controller('FormAlunoController', function ($rootScope, $scope, $http, $stat
         $rootScope.isLoading = true;
         $http.get('/api/responsaveis-alunos').then(function successCallback(response) {
             $scope.vm.responsaveis = response.data;
+            $rootScope.isLoading = false;
         }, function errorCallback(response) {
             $scope.vm.responsaveis = [];
+            $rootScope.isLoading = false;
             AlertMessage.show('danger', "Erro ao carregar os responsaveis");
         });
     };

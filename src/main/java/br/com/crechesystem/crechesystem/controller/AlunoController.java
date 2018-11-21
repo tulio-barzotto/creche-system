@@ -47,9 +47,20 @@ public class AlunoController {
     }
 
     @PostMapping
-    public ResponseEntity<Aluno> create(AlunoDTO alunoDTO) throws Exception {
+    public ResponseEntity<Aluno> create(@RequestBody AlunoDTO alunoDTO) throws Exception {
         LOGGER.info("Request para criar Aluno");
         Aluno aluno = alunoService.save(alunoDTO);
         return new ResponseEntity<>(aluno, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteAlunoById(@PathVariable Long id) {
+        LOGGER.info("Requisição para deletar Aluno ID: {}", id);
+        try{
+            alunoService.delete(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

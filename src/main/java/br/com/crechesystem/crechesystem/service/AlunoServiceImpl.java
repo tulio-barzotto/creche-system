@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +36,7 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public Optional<Aluno> findOne(Long id) {
-        LOGGER.info("Pesquisando Aluno pelo ID: {}", id);
+        LOGGER.info("Pesquisando aluno pelo ID: {}", id);
         return this.alunoRepository.findById(id);
     }
 
@@ -46,19 +47,30 @@ public class AlunoServiceImpl implements AlunoService {
 
     @Override
     public Aluno save(AlunoDTO alunoDTO) throws Exception {
-        LOGGER.info("Salvando usuário: {}", alunoDTO);
+        LOGGER.info("Salvando aluno: {}", alunoDTO);
         this.isValid(alunoDTO);
         Optional<ResponsavelAluno> optResponsavelAluno = responsavelAlunoService.findOne(alunoDTO.getIdResponsavelAluno());
         Optional<Turma> optTurma = turmaService.findByBirthMonth(DateUtils.getMonthFromBirthdate(alunoDTO.getBirthdate()));
         if(optResponsavelAluno.isPresent() && optTurma.isPresent()) {
             Aluno aluno = new Aluno();
             aluno.setName(alunoDTO.getName());
-            aluno.setBirthdate(alunoDTO.getBirthdate());
+            aluno.setBirthdate(Date.valueOf(alunoDTO.getBirthdate()));
             aluno.setResponsavelAluno(optResponsavelAluno.get());
             aluno.setTurma(optTurma.get());
             return alunoRepository.save(aluno);
         } else {
             throw new BusinessRuleException("Erro ao salvar Aluno");
+        }
+    }
+
+    @Override
+    public void delete(Long id) throws Exception {
+        LOGGER.info("Deletando aluno ID: {}", id);
+        Optional<Aluno> aluno = findOne(id);
+        if(aluno.isPresent()) {
+            alunoRepository.delete(aluno.get());
+        } else {
+            throw new Exception("Aluno não encontrado");
         }
     }
 
@@ -69,7 +81,7 @@ public class AlunoServiceImpl implements AlunoService {
         }
         Optional<Turma> optTurma = turmaService.findByBirthMonth(DateUtils.getMonthFromBirthdate(alunoDTO.getBirthdate()));
         if(!optTurma.isPresent()) {
-            throw new BusinessRuleException("Turma não encontrada");
+            throw new BusinessRuleException("Turma não encontrada para idade do aluno");
         } else {
             Turma turma = optTurma.get();
             if(turma.getAlunosTotal() + 1 >= turma.getMaximumCapacity()) {

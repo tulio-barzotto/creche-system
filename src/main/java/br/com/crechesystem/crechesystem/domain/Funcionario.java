@@ -9,13 +9,13 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "funcionario")
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Funcionario implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty

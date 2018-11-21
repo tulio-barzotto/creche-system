@@ -1,6 +1,5 @@
 package br.com.crechesystem.crechesystem.domain;
 
-import br.com.crechesystem.crechesystem.security.enums.Role;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -9,13 +8,13 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "responsavel")
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Responsavel implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty

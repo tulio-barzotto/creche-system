@@ -1,24 +1,23 @@
 package br.com.crechesystem.crechesystem.domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import br.com.crechesystem.crechesystem.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.io.Serializable;
+import java.sql.Date;
 
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "aluno")
-public class Aluno {
+public class Aluno implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty
@@ -26,14 +25,17 @@ public class Aluno {
     @Column(name = "nome")
     private String name;
 
-    @NotEmpty
+    @NotNull
     @Column(name = "nascimento")
-    private LocalDate birthdate;
+    private Date birthdate;
 
+    @JsonManagedReference
+    @NotNull
     @ManyToOne
     @JoinColumn(name="turma_id")
     private Turma turma;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name="responsavel_aluno_id")
     private ResponsavelAluno responsavelAluno;
@@ -54,12 +56,16 @@ public class Aluno {
         this.name = name;
     }
 
-    public LocalDate getBirthdate() {
+    public Date getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(LocalDate birthdate) {
+    public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
+    }
+
+    public String getAge() {
+        return DateUtils.getAgeFormatted(this.birthdate);
     }
 
     public Turma getTurma() {

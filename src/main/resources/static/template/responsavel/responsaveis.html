@@ -8,23 +8,23 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>Nome</th>
+                    <th>Nome Mãe</th>
+                    <th>Nome Pai</th>
                     <th>Telefone</th>
                     <th>Endereço</th>
                     <th>Município</th>
                     <th>Estado</th>
-                    <th>Editar</th>
                     <th>Remover</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr ng-repeat="responsavel in responsaveis | orderBy : 'name'">
-                    <td>{{ responsavel.name }}</td>
-                    <td>{{ '(' + responsavel.phoneDdd + ') ' + responsavel.phoneNumber }}</td>
-                    <td>{{ responsavel.address }}</td>
-                    <td>{{ responsavel.city }}</td>
-                    <td>{{ responsavel.uf }}</td>
-                    <td><p data-placement="top" data-toggle="tooltip" title="Editar"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" ng-click="edit(responsavel)" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                <tr ng-repeat="responsavel in responsaveis">
+                    <td>{{ responsavel.responsavelMae.name }}</td>
+                    <td>{{ responsavel.responsavelPai.name }}</td>
+                    <td>{{ '(' + responsavel.responsavelMae.phoneDdd + ') ' + responsavel.responsavelMae.phoneNumber }}</td>
+                    <td>{{ responsavel.responsavelMae.address }}</td>
+                    <td>{{ responsavel.responsavelMae.city }}</td>
+                    <td>{{ responsavel.responsavelMae.uf }}</td>
                     <td><p data-placement="top" data-toggle="tooltip" title="Remover"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" ng-click="delete(responsavel)" ><span class="glyphicon glyphicon-trash"></span></button></p></td>
                 </tr>
                 </tbody>
