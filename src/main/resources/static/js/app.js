@@ -82,7 +82,7 @@ app.controller('HomeController', function ($rootScope, $scope, $state, $http, To
 });
 
 app.controller('LoginController', function ($rootScope, $scope, $http, $state, TokenStore, AlertMessage) {
-    $rootScope.isLoading = true;
+    $rootScope.isLoading = false;
     $rootScope.showNavbar = function () {
         return typeof $rootScope.currentUser !== "undefined";
     };
@@ -181,7 +181,6 @@ app.controller('FormResponsavelController', function ($rootScope, $scope, $http,
             $scope.model.responsavelMae.dddPhoneNumber = $scope.extractDddPhoneNumber($scope.model.responsavelMae.phone);
             $scope.model.responsavelMae.phoneNumber = $scope.extractPhoneNumber($scope.model.responsavelMae.phone);
         }
-        console.log($scope.model);
         $http.post('/api/responsaveis-alunos', $scope.model).then(function successCallback(response) {
             AlertMessage.show('success', 'Responsavel Aluno salvo com sucesso!');
             $state.go('responsaveis');
@@ -223,7 +222,6 @@ app.controller('AlunoController', function ($rootScope, $scope, $http, $state, A
         })
     };
     $scope.delete = function (aluno) {
-        console.log(aluno);
         if ($window.confirm('Tem certeza que deseja deletar ' + aluno.name + '?')) {
             $rootScope.isLoading = true;
             $http.delete('/api/alunos/' + aluno.id).then(function successCallback(response) {
@@ -247,7 +245,6 @@ app.controller('FormAlunoController', function ($rootScope, $scope, $http, $stat
     $scope.vm = {};
     $scope.vm.responsaveis = [];
     $scope.submitForm = function () {
-        console.log($scope.model);
         $http.post('/api/alunos', {
             name : $scope.model.name,
             birthdate : $scope.model.birthdate,
@@ -266,8 +263,10 @@ app.controller('FormAlunoController', function ($rootScope, $scope, $http, $stat
         $rootScope.isLoading = true;
         $http.get('/api/responsaveis-alunos').then(function successCallback(response) {
             $scope.vm.responsaveis = response.data;
+            $rootScope.isLoading = false;
         }, function errorCallback(response) {
             $scope.vm.responsaveis = [];
+            $rootScope.isLoading = false;
             AlertMessage.show('danger', "Erro ao carregar os responsaveis");
         });
     };
