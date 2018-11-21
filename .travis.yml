@@ -11,4 +11,4 @@ deploy:
   api_key:
     secure: 53b93989-0012-4d4f-a673-757958b0a1a8
   app: creche-system
-  on: development
+  on: master

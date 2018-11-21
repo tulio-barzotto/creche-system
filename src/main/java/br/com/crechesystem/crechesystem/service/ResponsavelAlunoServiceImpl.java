@@ -23,10 +23,13 @@ public class ResponsavelAlunoServiceImpl implements ResponsavelAlunoService {
 
     private final ResponsavelService responsavelService;
 
+    private final AlunoService alunoService;
+
     @Autowired
-    public ResponsavelAlunoServiceImpl(ResponsavelAlunoRepository responsavelAlunoRepository, ResponsavelService responsavelService) {
+    public ResponsavelAlunoServiceImpl(ResponsavelAlunoRepository responsavelAlunoRepository, ResponsavelService responsavelService, AlunoService alunoService) {
         this.responsavelAlunoRepository = responsavelAlunoRepository;
         this.responsavelService = responsavelService;
+        this.alunoService = alunoService;
     }
 
     @Override
@@ -58,9 +61,12 @@ public class ResponsavelAlunoServiceImpl implements ResponsavelAlunoService {
     public void delete(Long id) throws Exception {
         LOGGER.info("Deletando Responsavel aluno ID: {}", id);
         Optional<ResponsavelAluno> responsavelAluno = findOne(id);
-        //TODO Verificar se já existe aluno vinculado
         if(responsavelAluno.isPresent()) {
-            responsavelAlunoRepository.delete(responsavelAluno.get());
+            if(alunoService.existsByIdResponsavelAluno(id)){
+                throw new Exception("Responsavel já possui aluno vinculado");
+            } else {
+                responsavelAlunoRepository.delete(responsavelAluno.get());
+            }
         } else {
             throw new Exception("Responsavel Aluno não encontrado");
         }
