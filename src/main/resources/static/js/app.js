@@ -43,7 +43,7 @@ app.factory('TokenStore', function ($window) {
   };
 });
 
-app.factory('authInterceptor', function ($rootScope, $q, TokenStore) {
+app.factory('authInterceptor', function ($rootScope, $q, TokenStore, $state) {
   return {
     request: function (config) {
       config.headers = config.headers || {};
@@ -54,7 +54,7 @@ app.factory('authInterceptor', function ($rootScope, $q, TokenStore) {
     },
     response: function (response) {
       if (response.status === 401) {
-        // handle the case where the user is not authenticated
+        $state.go('login');
       }
       return response || $q.when(response);
     }
@@ -149,12 +149,12 @@ app.controller('ResponsavelController', function ($rootScope, $scope, $http, $st
         if ($window.confirm('Tem certeza que deseja deletar responsavel mae= ' + responsavel.responsavelMae.name + '?')) {
             $rootScope.isLoading = true;
             $http.delete('/api/responsaveis-alunos/' + responsavel.id).then(function successCallback(response) {
+                $rootScope.isLoading = false;
                 $scope.getAll();
                 AlertMessage.show('success', 'Responsavel Aluno deletado com sucesso');
-                $rootScope.isLoading = false;
             }, function errorCallback(response) {
                 $rootScope.isLoading = false;
-                AlertMessage.show('danger', 'Erro ao deletar responsavel aluno');
+                AlertMessage.show('danger', 'Erro ao deletar responsavel aluno. ' + response.data.message);
             })
         }
     };
@@ -225,12 +225,12 @@ app.controller('AlunoController', function ($rootScope, $scope, $http, $state, A
         if ($window.confirm('Tem certeza que deseja deletar ' + aluno.name + '?')) {
             $rootScope.isLoading = true;
             $http.delete('/api/alunos/' + aluno.id).then(function successCallback(response) {
+                $rootScope.isLoading = false;
                 $scope.getAll();
                 AlertMessage.show('success', 'Aluno deletado com sucesso');
-                $rootScope.isLoading = false;
             }, function errorCallback(response) {
                 $rootScope.isLoading = false;
-                AlertMessage.show('danger', 'Erro ao deletar aluno');
+                AlertMessage.show('danger', 'Erro ao deletar aluno. ' + response.data.message);
             })
         }
     };

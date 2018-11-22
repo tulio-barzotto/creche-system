@@ -54,13 +54,9 @@ public class ResponsavelAlunoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteResponsavelAlunoById(@PathVariable Long id) {
+    public ResponseEntity deleteResponsavelAlunoById(@PathVariable Long id) throws Exception {
         LOGGER.info("Requisição para deletar Responsavel aluno ID: {}", id);
-        try{
-            responsavelAlunoService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        responsavelAlunoService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
