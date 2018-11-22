@@ -17,67 +17,67 @@ app.config(['ngAlertsProvider', function (ngAlertsProvider) {
 }]);
 
 app.factory('AlertMessage', function (ngAlertsMngr) {
-   return {
-       show: function (type, message) {
-           var obj = {
-               msg: message,
-               type: type
-           };
-           ngAlertsMngr.add(obj);
-       }
-   };
+    return {
+        show: function (type, message) {
+            var obj = {
+                msg: message,
+                type: type
+            };
+            ngAlertsMngr.add(obj);
+        }
+    };
 });
 
 app.factory('TokenStore', function ($window) {
-  var storageKey = 'auth_token';
-  return {
-    save: function (token) {
-      return $window.localStorage.setItem(storageKey, token);
-    },
-    get: function () {
-      return $window.localStorage.getItem(storageKey);
-    },
-    clear: function () {
-      return $window.localStorage.removeItem(storageKey);
-    }
-  };
+    var storageKey = 'auth_token';
+    return {
+        save: function (token) {
+            return $window.localStorage.setItem(storageKey, token);
+        },
+        get: function () {
+            return $window.localStorage.getItem(storageKey);
+        },
+        clear: function () {
+            return $window.localStorage.removeItem(storageKey);
+        }
+    };
 });
 
-app.factory('authInterceptor', function ($rootScope, $q, TokenStore, $state) {
-  return {
-    request: function (config) {
-      config.headers = config.headers || {};
-      if (TokenStore.get()) {
-        config.headers['X-Auth-Token'] = TokenStore.get();
-      }
-      return config;
-    },
-    response: function (response) {
-      if (response.status === 401) {
-        $state.go('login');
-      }
-      return response || $q.when(response);
-    }
-  };
+app.factory('authInterceptor', function ($rootScope, $q, TokenStore) {
+    return {
+        request: function (config) {
+            config.headers = config.headers || {};
+            if (TokenStore.get()) {
+                config.headers['X-Auth-Token'] = TokenStore.get();
+            }
+            return config;
+        },
+        response: function (response) {
+            if (response.status === 401) {
+                //TODO:
+            }
+            return response || $q.when(response);
+        }
+    };
 });
 
 app.controller('HomeController', function ($rootScope, $scope, $state, $http, TokenStore) {
-  if ($rootScope.currentUser === undefined) {
-    if (TokenStore.get()) {
-      $http.get("/api/user/current").then(function (response) {
-        $rootScope.currentUser = response.data;
-      });
-    } else {
-      console.log('not authenticated');
-      $state.go('login');
+    if ($rootScope.currentUser === undefined) {
+        if (TokenStore.get()) {
+            $http.get("/api/user/current").then(function (response) {
+                $rootScope.currentUser = response.data;
+            });
+        } else {
+            console.log('not authenticated');
+            $state.go('login');
+        }
     }
-  }
 
-  $rootScope.logout = function () {
-    TokenStore.clear();
-    delete $rootScope.currentUser;
-    $state.go('login');
-  };
+    $rootScope.logout = function () {
+        TokenStore.clear();
+        delete $rootScope.currentUser;
+        $state.go('login');
+    };
 
 });
 
@@ -91,27 +91,27 @@ app.controller('LoginController', function ($rootScope, $scope, $http, $state, T
         $state.go('home');
     }
 
-  $scope.login = function () {
-      $rootScope.isLoading = true;
-      $http.post('/api/login', {
-          username: $scope.username,
-          password: $scope.password
-      }).then(function successCallback(response) {
-          var authToken = response.headers()['x-auth-token'];
-          if (authToken) {
-              TokenStore.save(authToken);
-              //get current user
-              return $http.get('/api/user/current').then(function successCallback(response) {
-                  $rootScope.currentUser = response.data;
-                  $rootScope.isLoading = false;
-                  $state.go('home');
-              });
-          }
-      }, function errorCallback(response) {
-          $rootScope.isLoading = false;
-          AlertMessage.show('danger', 'Usuario e/ou senha invalidos');
-      })
-  }
+    $scope.login = function () {
+        $rootScope.isLoading = true;
+        $http.post('/api/login', {
+            username: $scope.username,
+            password: $scope.password
+        }).then(function successCallback(response) {
+            var authToken = response.headers()['x-auth-token'];
+            if (authToken) {
+                TokenStore.save(authToken);
+                //get current user
+                return $http.get('/api/user/current').then(function successCallback(response) {
+                    $rootScope.currentUser = response.data;
+                    $rootScope.isLoading = false;
+                    $state.go('home');
+                });
+            }
+        }, function errorCallback(response) {
+            $rootScope.isLoading = false;
+            AlertMessage.show('danger', 'Usuario e/ou senha invalidos');
+        })
+    }
 });
 
 app.controller('TurmaController', function ($rootScope, $scope, $http, $state, AlertMessage) {
@@ -167,11 +167,11 @@ app.controller('ResponsavelController', function ($rootScope, $scope, $http, $st
 app.controller('FormResponsavelController', function ($rootScope, $scope, $http, $state, AlertMessage) {
     $scope.model = {};
     $scope.cadastrarPai = false;
-    $scope.states = ['AC','AL','AM','AP','BA','CE','DF','ES','GO','MA',
-        'MG','MS','MT','PA','PB','PE','PI','PR','RJ','RN','RO','RR',
-        'RS','SC','SE','SP','TO'];
+    $scope.states = ['AC', 'AL', 'AM', 'AP', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA',
+        'MG', 'MS', 'MT', 'PA', 'PB', 'PE', 'PI', 'PR', 'RJ', 'RN', 'RO', 'RR',
+        'RS', 'SC', 'SE', 'SP', 'TO'];
     $scope.submitForm = function () {
-        if(!$scope.cadastrarPai) {
+        if (!$scope.cadastrarPai) {
             $scope.model.responsavelPai = null;
             $scope.model.responsavelMae.dddPhoneNumber = $scope.extractDddPhoneNumber($scope.model.responsavelMae.phone);
             $scope.model.responsavelMae.phoneNumber = $scope.extractPhoneNumber($scope.model.responsavelMae.phone);
@@ -188,15 +188,15 @@ app.controller('FormResponsavelController', function ($rootScope, $scope, $http,
             AlertMessage.show('danger', "Erro ao salvar Responsavel Aluno. " + response.data.message);
         });
     };
-    $scope.extractDddPhoneNumber = function(phone) {
-        if(phone) {
+    $scope.extractDddPhoneNumber = function (phone) {
+        if (phone) {
             return phone.substr(0, 2);
         } else {
             return null;
         }
     };
-    $scope.extractPhoneNumber = function(phone) {
-        if(phone) {
+    $scope.extractPhoneNumber = function (phone) {
+        if (phone) {
             return phone.substr(2, phone.length);
         } else {
             return null;
@@ -246,9 +246,9 @@ app.controller('FormAlunoController', function ($rootScope, $scope, $http, $stat
     $scope.vm.responsaveis = [];
     $scope.submitForm = function () {
         $http.post('/api/alunos', {
-            name : $scope.model.name,
-            birthdate : $scope.model.birthdate,
-            idResponsavelAluno : $scope.model.idResponsavelAluno
+            name: $scope.model.name,
+            birthdate: $scope.model.birthdate,
+            idResponsavelAluno: $scope.model.idResponsavelAluno
         }).then(function successCallback(response) {
             AlertMessage.show('success', 'Aluno salvo com sucesso! Matriculado na turma= ' + response.data.turma.name);
             $state.go('alunos');
@@ -270,8 +270,8 @@ app.controller('FormAlunoController', function ($rootScope, $scope, $http, $stat
             AlertMessage.show('danger', "Erro ao carregar os responsaveis");
         });
     };
-    $scope.formatResponsaveis = function(mae, pai) {
-        if(mae && pai) {
+    $scope.formatResponsaveis = function (mae, pai) {
+        if (mae && pai) {
             return mae.name + ' e ' + pai.name;
         } else if (mae) {
             return mae.name;
